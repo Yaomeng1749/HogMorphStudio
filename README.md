@@ -69,6 +69,8 @@ The supervised trainer has a fail-closed data gate; see the [model data requirem
 
 There are **not yet 100 eligible morph-labeled images**. The user-supplied image batch was screened for likely species, but visual candidates are not genotype labels, unique-animal identities, or rights clearance. Training eligibility is currently zero. The needed minimum is 100 authorized, reviewed photos from 39 or more identifiable snakes, with class-specific positives and explicit negatives sufficient for identity-separated train, validation, and test sets.
 
+Breeders with individually documented, captive animals can review the [contribution request](docs/partner-request.md) and [source lead list](docs/partner-shortlist.md). Training/evaluation permission and public photo display or redistribution are requested as separate scopes; the code's MIT license does not apply to contributed photographs.
+
 Publicly viewable Instagram, MorphMarket, and wiki images are not automatically reusable. No Instagram or MorphMarket images were copied into the repository. The supplied course workbook, its 21 photos, and images embedded in the supplied genetics guide have unrecorded reuse rights and are not distributed. Licensed iNaturalist references are retained only as attributed, species-only examples; they do not count as morph examples or genetic negatives. See [asset rights](ASSET_RIGHTS.md), [dataset source audit](docs/dataset-source-audit-2026-09-30.md), and the [incoming photo audit](docs/incoming-audit.md).
 
 `LICENSE-CODE` covers project-authored software only. It does not change third-party photo licenses or grant rights in source documents.
