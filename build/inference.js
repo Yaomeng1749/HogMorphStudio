@@ -98,7 +98,7 @@
     });
     function textList(value) { return Array.isArray(value) ? value.map(v => String(v)).join(' · ') : String(value ?? ''); }
     function traitName(trait) {
-        const names = { 'anaconda': tr('Anaconda', '康达'), 'arctic': tr('Arctic', '北极'), 'albino': tr('Albino', '白化'), 'axanthic': tr('Axanthic', '缺黄'), 'sable': tr('Sable', '紫貂'), 'toffee-belly': tr('Toffee Belly', '太妃糖腹'), 'lavender': tr('Lavender', '薰衣草') };
+        const names = { 'anaconda': tr('Anaconda', '康达'), 'arctic': tr('Arctic', '北极'), 'albino': tr('Albino', '白化'), 'axanthic': tr('Axanthic', '缺黄'), 'sable': tr('Sable', '紫貂'), 'toffee_belly': tr('Toffee Belly', '太妃糖腹'), 'lavender': tr('Lavender', '薰衣草') };
         const base = names[trait.trait_id] || trait.trait_id;
         return /super|homozygous/.test(trait.state) && ['anaconda', 'arctic'].includes(trait.trait_id) ? (zh ? '超级' + base : 'Super ' + base) : base;
     }

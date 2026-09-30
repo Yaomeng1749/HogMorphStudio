@@ -82,7 +82,7 @@ async function init() {
       if (!response.ok) return null;
       const data = await response.json();
       const records = Array.isArray(data) ? data : data.references ?? data.images ?? [];
-      const names = {'anaconda':['Anaconda','康达'],'arctic':['Arctic','北极'],'albino':['Albino','白化'],'axanthic':['Axanthic','缺黄'],'sable':['Sable','紫貂'],'toffee-belly':['Toffee Belly','太妃糖腹'],'lavender':['Lavender','薰衣草']};
+      const names = {'anaconda':['Anaconda','康达'],'arctic':['Arctic','北极'],'albino':['Albino','白化'],'axanthic':['Axanthic','缺黄'],'sable':['Sable','紫貂'],'toffee_belly':['Toffee Belly','太妃糖腹'],'lavender':['Lavender','薰衣草']};
       const labels = new Map<string,ArchiveLabel>();
       const images = records.map((record:any) => {
         const values: Record<string,number|null> = {};
@@ -91,7 +91,7 @@ async function init() {
           const id = superForm ? 'super-'+trait.trait_id : trait.trait_id;
           const base = names[trait.trait_id];
           if (!base) continue;
-          if (!labels.has(id)) labels.set(id,{id,name_en:(superForm?'Super ':'')+base[0],name_zh:(superForm?'超级':'')+base[1],positive_examples:0});
+          if (!labels.has(id)) labels.set(id,{id,name_en:superForm && trait.trait_id==='anaconda' ? 'Superconda' : (superForm?'Super ':'')+base[0],name_zh:(superForm?'超级':'')+base[1],positive_examples:0});
           labels.get(id).positive_examples++;
           values[id]=1;
         }
