@@ -544,7 +544,7 @@ def create_app(root=ROOT, config=None, provider=None):
         rel = Path(asset_path)
         safe = asset_path in {"index.html", "styles.css", "favicon.ico"}
         safe |= bool(rel.parts and rel.parts[0] in {"build", "assets"} and rel.suffix.lower() in {".js", ".css", ".png", ".jpg", ".jpeg", ".webp", ".svg", ".woff", ".woff2", ".mp4"})
-        safe |= asset_path in {"data/ontology.json", "data/catalog.json", "data/project_summary.json", "data/demo_references.json", "data/reference_gallery.json", "data/incoming_summary.json", "data/species_manifest.json", "data/captive_species_manifest.json"}
+        safe |= asset_path in {"data/ontology.json", "data/catalog.json", "data/project_summary.json", "data/demo_references.json", "data/genes_import_summary.json", "data/reference_gallery.json", "data/incoming_summary.json", "data/species_manifest.json", "data/captive_species_manifest.json"}
         safe |= bool(len(rel.parts) > 2 and rel.parts[:2] == ("data", "species_only") and rel.suffix.lower() in {".jpg", ".jpeg", ".png", ".webp"})
         safe |= bool(rel.parts and rel.parts[0] == "docs" and rel.suffix.lower() in {".md", ".png", ".jpg", ".jpeg", ".webp", ".gif", ".svg", ".mp4"})
         safe |= asset_path in {"README.md", "README.zh-CN.md", "ASSET_RIGHTS.md", "LICENSE-CODE"}
