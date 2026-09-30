@@ -15,11 +15,15 @@ Results show up to three candidate morphs, component traits, visible observation
 
 English is the default; the entire workbench also supports Chinese. Dataset curation, species references, morph terminology, and the original research modules remain available.
 
+> **Experimental demo:** actual local runs returned the expected Albino component set, but missed Snow/Sunburst components and did not resolve Superconda. Review [measured runs and limitations](docs/demo-acceptance.md) before using model suggestions.
+
 ## Run the demo
 
 Requirements: Python 3.10+, Node.js/npm, and [Ollama](https://ollama.com/). Allow disk and memory for the vision model; inference time depends on hardware.
 
 ```bash
+git clone https://github.com/Yaomeng1749/HogMorphStudio.git
+cd HogMorphStudio
 python3 -m venv .venv-demo
 source .venv-demo/bin/activate
 python -m pip install -r requirements-demo.txt
@@ -30,7 +34,7 @@ npm run demo
 
 Open <http://127.0.0.1:8000/>. The unified server serves the interface, API, and packaged reference images. Start Ollama before analyzing a photo. A model that is missing, unreachable, or not configured produces an explicit status rather than a substitute color score.
 
-See [demo configuration and behavior](docs/multimodal-demo.md) for provider configuration, API boundaries, and failure handling. Python/PyTorch is **not required for the demo**; `requirements-ml.txt` is a separate research environment.
+See [demo configuration and behavior](docs/multimodal-demo.md) for provider configuration, API boundaries, and failure handling. PyTorch is **not required for the demo**; `requirements-ml.txt` is a separate research environment.
 
 ## Real references, limited claims
 
@@ -44,7 +48,13 @@ The owner requested removal of the 207 incoming visual candidates. They are no l
 
 ## Demo recording
 
-The previous [interface-tour recording](docs/assets/hogmorph-studio-demo.mp4) demonstrates the earlier bilingual curation UI, **not the current multimodal inference chain**. Its staged photo is an AI-generated illustration, not biological evidence. The hero above is likewise an illustration. A current real-inference recording and run evidence are documented alongside the demo acceptance results when available.
+[![Real local inference — watch the demo](docs/assets/multimodal-preview.gif)](docs/assets/hogmorph-multimodal-demo.mp4)
+
+**[Watch the full real-inference video](docs/assets/hogmorph-multimodal-demo.mp4)** · [Result screenshot](docs/assets/multimodal-result.png) · [Measured runs](docs/demo-acceptance.md)
+
+The recording uploads the authorized Albino reference photo and waits for an actual two-stage Ollama request (**47.84 seconds** in this run), then shows candidates, component traits, evidence and real reference photographs. It ends in the Chinese collection view. Responses are not mocked or substituted. The preview is a short excerpt; the full recording preserves the wait. Incorrect alternatives remain visible. This uses a known reference photo and does not establish independent accuracy.
+
+The older [interface-tour video](docs/assets/hogmorph-studio-demo.mp4) remains an archive of the earlier curation interface. Its staged image and the README hero are AI illustrations, not specimen evidence.
 
 ## Research work retained
 

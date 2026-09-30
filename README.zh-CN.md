@@ -15,11 +15,15 @@ Demo 默认使用 Ollama 的 `qwen3-vl:4b-instruct` **预训练多模态模型**
 
 默认英语，支持中文。数据整理、物种参考、形态术语与原有研究模块均保留。
 
+> **实验性 demo：** 本地实测白化拆解成功，但 Snow、Sunburst 漏掉组合成分，Superconda 未完成判断。使用前请阅读[实测结果与限制](docs/demo-acceptance.md)，人工复核模型候选。
+
 ## 本地运行
 
 需要 Python 3.10+、Node.js/npm 和 [Ollama](https://ollama.com/)。视觉模型需要相应磁盘和内存，推理耗时取决于硬件。
 
 ```bash
+git clone https://github.com/Yaomeng1749/HogMorphStudio.git
+cd HogMorphStudio
 python3 -m venv .venv-demo
 source .venv-demo/bin/activate
 python -m pip install -r requirements-demo.txt
@@ -44,7 +48,13 @@ npm run demo
 
 ## 演示录屏
 
-此前的[界面导览视频](docs/assets/hogmorph-studio-demo.mp4)展示旧版本的双语整理界面，**没有展示当前多模态推理链路**。旧视频中的待整理照片是 AI 插画，不是生物证据；上方主视觉同样是插画。新版真实推理录屏与实测结果完成后，与 demo 验收记录一起提供。
+[![真实本地推理录屏](docs/assets/multimodal-preview.gif)](docs/assets/hogmorph-multimodal-demo.mp4)
+
+**[观看完整真实推理视频](docs/assets/hogmorph-multimodal-demo.mp4)** · [中文结果截图](docs/assets/multimodal-result-zh.png) · [实测记录](docs/demo-acceptance.md)
+
+视频上传已授权的 Albino 参考照片，等待真正的两阶段 Ollama 请求（本次 **47.84 秒**），展示候选、基础性状、依据与实拍参考图，最后切到中文整理页。未模拟或替换模型响应；预览为短片段，完整视频保留等待过程与错误备选。使用的是已知参考照片，不能据此得出独立准确率。
+
+旧[界面导览视频](docs/assets/hogmorph-studio-demo.mp4)保留为历史整理界面记录。其中待整理图及 README 主视觉是 AI 插画，不属于样本证据。
 
 ## 保留的研究线路
 

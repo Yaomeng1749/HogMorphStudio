@@ -46,7 +46,7 @@ Use a provider that supports image inputs and the chat-completions interface. Th
 - `GET /api/references`: real reference records from `data/demo_references.json`.
 - `POST /api/analyze`: uploaded image and language; returns at most three candidates, component traits and states, qualitative evidence strength, visible observations, limitations, reference IDs, model, and elapsed time.
 
-The first pass observes the uploaded image. The server selects at most three relevant references using validated candidate components. The second pass compares those photos. Names are derived by the server from supported ontology entries, including Superconda, Super Arctic, Snow, and Sunburst. Novel names, conflicting states for a locus, hidden carrier claims, and nonexistent reference IDs are rejected.
+The first pass observes the uploaded image. The server selects at most three relevant references using validated candidate components. The second pass compares those photos. Names are derived by the server from supported ontology entries, including Superconda, Super Arctic, Snow, and Sunburst. Novel names, conflicting states for a locus, hidden carrier claims, and nonexistent reference IDs are rejected. All original candidates are validated before repeated valid hypotheses and reference citations are stably deduplicated; the first hypothesis retains its original evidence.
 
 模型先观察，再做参考图比较。证据强弱为定性结果；不会转换成基因概率。模型未就绪时直接显示原因，不回退到旧颜色相似度，也不返回缓存或预制的推理结果。上传图片只为当前请求处理，处理后释放，不作为上传档案保存。
 
@@ -67,3 +67,7 @@ Also exercise: non-snake input, blank image, corrupt file, unavailable model, ti
 ## Exact local model tag
 
 Use `qwen3-vl:4b-instruct`. Ollama’s shorter `qwen3-vl:4b` tag currently resolves to the Thinking variant, which exhausted the bounded generation budget without returning structured content during acceptance. The explicit Instruct tag avoids this ambiguity; runtime metadata records the actual model.
+
+## Measured behavior
+
+See [actual local acceptance runs](demo-acceptance.md). The implemented inference chain is operational, but the default 4B model did not consistently identify all four requested demonstration phenotypes. These unresolved cases are recorded explicitly; configuring another vision model does not itself prove improved recognition.
