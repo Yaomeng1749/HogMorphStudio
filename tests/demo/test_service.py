@@ -152,6 +152,19 @@ class ServiceTests(unittest.TestCase):
         self.assertEqual(self.post(self.client(provider)).status_code, 200)
         self.assertIn('"labels_complete": false', provider.calls[1][0])
         self.assertIn("image 1 ONLY", provider.calls[1][0])
+    def test_visual_codebook_is_general_and_preserves_rejection(self):
+        from demo.service import prompt_for, VISUAL_CODEBOOK_SOURCES
+        prompt = prompt_for(Catalog(self.root), "en")
+        self.assertIn("Species is assessed from anatomy", prompt)
+        self.assertIn("Red/ruby eyes are compatible", prompt)
+        self.assertIn("almost patternless dorsum", prompt)
+        self.assertIn("absence of black does NOT exclude Sable", prompt)
+        self.assertIn("one to three weak hypotheses", prompt)
+        self.assertIn("Clear non-target animals remain non_target", prompt)
+        self.assertIn("If species is not confidently Western Hognose", prompt)
+        self.assertEqual(len(VISUAL_CODEBOOK_SOURCES), 7)
+        self.assertNotIn("figure06", prompt)
+        self.assertNotIn("x.png", prompt)
     def test_names(self):
         catalog = Catalog(self.root)
         self.assertEqual(catalog.names([{"trait_id": "anaconda", "state": "homozygous"}])[0], "Superconda")
