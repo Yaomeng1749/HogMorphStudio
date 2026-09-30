@@ -97,6 +97,7 @@ def image_bytes(raw: bytes) -> bytes:
 class MemoryMultipartParser(MultiPartParser):
     # Streaming total limit is smaller than this threshold, so uploads cannot roll to disk.
     spool_max_size = MAX_MULTIPART_BYTES + 1
+    max_file_size = spool_max_size  # Earlier supported Starlette releases use this name.
 
     async def parse(self):
         try:
