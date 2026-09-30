@@ -183,6 +183,9 @@ class Provider:
             installed = {m.get("name") for m in result.get("models", [])}
             if c.model not in installed and c.model + ":latest" not in installed:
                 fail("model_missing", "The configured Ollama model is not installed. Run ollama pull " + c.model, 503)
+            info = await self.request("POST", "/api/show", json={"model": c.model})
+            if "vision" not in info.get("capabilities", []):
+                fail("model_not_vision", "The configured Ollama model does not support images.", 503)
         else:
             # Checking model discovery is read-only; actual multimodal support is checked on analysis.
             result = await self.request("GET", "/models", headers=self.headers())
@@ -194,12 +197,15 @@ class Provider:
 
     async def infer(self, prompt, images):
         self.last_raw_content = None
+        self.last_response_metadata = None
         c = self.config
         encoded = [base64.b64encode(i).decode() for i in images]
         if c.provider == "ollama":
-            data = await self.request("POST", "/api/chat", json={"model": c.model, "stream": False,
+            data = await self.request("POST", "/api/chat", json={"model": c.model, "stream": False, "think": False,
                 "format": ModelResult.model_json_schema(), "options": {"temperature": 0, "num_ctx": int(os.getenv("HOGMORPH_CONTEXT_SIZE", "16384")), "num_predict": int(os.getenv("HOGMORPH_MAX_TOKENS", "1800"))},
                 "messages": [{"role": "user", "content": prompt, "images": encoded}]})
+            self.last_response_metadata = {"done_reason": data.get("done_reason"), "eval_count": data.get("eval_count"),
+                                           "thinking_char_count": len(data.get("message", {}).get("thinking", ""))}
             content = data.get("message", {}).get("content", "")
         else:
             body = [{"type": "text", "text": prompt}] + [{"type": "image_url", "image_url": {"url": "data:image/jpeg;base64," + i}} for i in encoded]
@@ -281,7 +287,8 @@ def create_app(root=ROOT, config=None, provider=None):
                 filename.write_text(json.dumps({"stage": stage, "model": config.model,
                     "elapsed_seconds": time.perf_counter() - started, "error_code": error_code,
                     "response": result.model_dump() if result else None,
-                    "raw_response": getattr(provider, "last_raw_content", None)}, ensure_ascii=False, indent=2))
+                    "raw_response": getattr(provider, "last_raw_content", None),
+                    "response_metadata": getattr(provider, "last_response_metadata", None)}, ensure_ascii=False, indent=2))
 
     @app.get("/api/status")
     async def status():

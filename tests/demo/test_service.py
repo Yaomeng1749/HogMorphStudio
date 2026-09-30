@@ -131,6 +131,28 @@ class AdapterTests(unittest.IsolatedAsyncioTestCase):
         with self.assertRaises(HTTPException) as error:
             await provider.infer("Inspect", [b"test"])
         self.assertEqual(error.exception.detail["code"], "invalid_model_output")
+    async def test_ollama_disables_thinking_and_checks_vision(self):
+        from demo.service import Provider
+        class NativeProvider(Provider):
+            async def request(self, method, endpoint, **kwargs):
+                if endpoint == "/api/tags":
+                    return {"models": [{"name": "qwen3-vl:4b"}]}
+                if endpoint == "/api/show":
+                    return {"capabilities": self.capabilities}
+                self.sent = kwargs["json"]
+                return {"message": {"content": result().model_dump_json(), "thinking": "private"}, "done_reason": "stop", "eval_count": 99}
+        provider = NativeProvider(Config("ollama", "qwen3-vl:4b", "http://127.0.0.1:11434", "", 1))
+        provider.capabilities = ["completion"]
+        with self.assertRaises(HTTPException) as error:
+            await provider.ready()
+        self.assertEqual(error.exception.detail["code"], "model_not_vision")
+        provider.capabilities = ["completion", "vision", "thinking"]
+        await provider.ready()
+        await provider.infer("Inspect", [b"image"])
+        self.assertFalse(provider.sent["think"])
+        self.assertEqual(provider.sent["options"]["num_ctx"], 16384)
+        self.assertEqual(provider.last_response_metadata, {"done_reason": "stop", "eval_count": 99, "thinking_char_count": 7})
+        self.assertNotIn("private", provider.last_raw_content)
     async def test_missing_model_and_timeout(self):
         from demo.service import Provider
         import httpx
