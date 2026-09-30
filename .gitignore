@@ -21,3 +21,6 @@ source/*.docx
 .pytest_cache/
 
 .venv-*/
+
+dist/
+.sites-runtime/

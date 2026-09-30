@@ -36,7 +36,7 @@ Open <http://127.0.0.1:8000/>. The unified server serves the interface, API, and
 
 See [demo configuration and behavior](docs/multimodal-demo.md) for provider configuration, API boundaries, and failure handling. PyTorch is **not required for the demo**; `requirements-ml.txt` is a separate research environment.
 
-## Real references, limited claims
+## Reference library
 
 **886 real reference photographs** are packaged: 868 owner-labelled images across 12 morph combinations from `Genes.zip`, plus 18 course references. The folder labels are decomposed into atomic traits and supported states. The original ZIP remains local; packaged images are oriented, resized and stripped of embedded metadata.
 
@@ -44,9 +44,7 @@ Lucy, Chocolate and Skull Face remain outside the supported course set. Unrecord
 
 The supported base traits are Anaconda, Arctic, Albino, Axanthic, Sable, Toffee Belly, and Lavender. Superconda and Super Arctic retain their homozygous distinctions. Combination names include Snow (Albino + Axanthic) and Sunburst (Albino + Sable).
 
-These images supply comparison context. They are not an independent test set, and the project has not trained or validated a supervised morph classifier. Demo consistency checks on these reference photos cannot establish recognition accuracy. See [reference manifest](data/demo_references.json) and [asset rights](ASSET_RIGHTS.md).
-
-The owner requested removal of the 207 incoming visual candidates. They are no longer part of the demo or a training corpus; 16 uncertain images remain quarantined privately. Missing individual identities and independent evaluation still limit the supervised research path.
+[Sites deployment and online model setup](docs/sites-deployment.md).
 
 ## Interface
 

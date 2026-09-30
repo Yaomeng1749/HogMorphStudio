@@ -36,7 +36,7 @@ npm run demo
 
 配置与接口说明见[多模态 demo 指南](docs/multimodal-demo.md)。运行 demo **不需要 PyTorch**；`requirements-ml.txt` 属于独立研究环境。
 
-## 真实参考图与能力边界
+## 参考图库
 
 仓库已包含 **886 张真实参考照片**：`Genes.zip` 中按 12 个组合标签整理的 868 张图片，以及原有 18 张课程参考图。目录标签拆解为基础性状和支持状态；原 ZIP 保留在本地，发布的图片经过方向校正、缩放和元数据清除。
 
@@ -44,9 +44,7 @@ Lucy、Chocolate、Skull Face 不进入支持的课程参考集；未记录性�
 
 支持的基础性状为 Anaconda、Arctic、Albino、Axanthic、Sable、Toffee Belly、Lavender。Superconda、Super Arctic 保留纯合状态区别；Snow 拆解为 Albino + Axanthic，Sunburst 为 Albino + Sable。
 
-这些照片提供对照上下文，属于参考集，不是独立测试集。本项目没有训练并验证过的监督形态分类器；对参考图做演示一致性检查不能得出识别准确率。详见[参考图清单](data/demo_references.json)与[照片权利说明](ASSET_RIGHTS.md)。
-
-项目所有者已要求删除 207 张视觉候选图，它们不再进入 demo 或训练语料；16 张不确定照片仍在本机隔离。监督研究仍受单蛇身份和独立评估数据不足的限制。
+[Sites 部署与线上模型配置](docs/sites-deployment.md)。
 
 ## 界面
 

@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc --project tsconfig.json",
     "typecheck": "tsc --project tsconfig.json --noEmit",
-    "demo": "npm run build && python scripts/run_demo.py"
+    "demo": "npm run build && python scripts/run_demo.py",
+    "build:sites": "npm run build && node scripts/build-sites.mjs"
   },
   "devDependencies": {
     "typescript": "^7.0.2"
