@@ -16,7 +16,7 @@
     'analysis-method-link':tr('How the model reasons ↘','模型如何判断 ↘'),
     'model-eyebrow':tr('UNDER THE HOOD','识别原理'),
     'model-title':tr('A vision model, real references.','视觉模型与真实参考图。'),
-    'model-intro-text':tr('The live demo uses a pretrained multimodal model through Python/FastAPI. Ollama qwen3-vl:4b-instruct is the default; an OpenAI-compatible vision endpoint can also be configured. Results include visible evidence and real reference comparisons.','实时演示通过 Python/FastAPI 调用预训练多模态模型，默认使用 Ollama qwen3-vl:4b-instruct，也支持配置 OpenAI 兼容视觉接口。结果包含可见依据与真实参考图对照。'),
+    'model-intro-text':tr('A pretrained vision model observes your photo and compares real references. The local demo uses Ollama qwen3-vl:4b-instruct; the hosted demo uses a configured OpenAI-compatible vision API.','预训练视觉模型观察照片并比较真实参考图。本机版使用 Ollama qwen3-vl:4b-instruct，线上版使用配置的 OpenAI 兼容视觉 API。'),
     'model-step1-title':tr('Observe the photo','观察照片'),
     'model-step1-text':tr('The vision model checks the subject and describes visible pattern and color evidence. Ambiguous or unsuitable images can receive no call.','视觉模型检查主体，描述可见花纹与颜色依据；模糊或不适合的图片可以拒绝判断。'),
     'model-step2-title':tr('Compare real references','比较真实参考图'),
