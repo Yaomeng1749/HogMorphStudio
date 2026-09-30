@@ -3,6 +3,7 @@ from __future__ import annotations
 import base64
 import io
 import json
+import math
 import os
 import time
 import warnings
@@ -155,6 +156,7 @@ async def read_upload(request: Request):
 class Catalog:
     def __init__(self, root: Path):
         self.root = root
+        self._feature_cache = {}
         ontology = json.loads((root / "data/ontology.json").read_text())
         self.traits = {t["id"]: t for t in ontology["traits"] if t["id"] in SUPPORTED}
         self.aliases = [a for a in ontology["aliases"] if all(c["trait_id"] in SUPPORTED for c in a["components"])]
@@ -193,44 +195,100 @@ class Catalog:
                 return alias["name_en"], alias["name_zh"]
         ordered = sorted(traits, key=lambda t: t["trait_id"])
         def name(t, lang):
+            if t["trait_id"] == "anaconda" and t["state"] == "homozygous":
+                return "Superconda" if lang == "en" else "超级康达"
             text = self.traits[t["trait_id"]]["name_" + lang]
             return ("Super " + text if lang == "en" else "超级" + text) if t["state"] == "homozygous" else text
         return " + ".join(name(t, "en") for t in ordered), " + ".join(name(t, "zh") for t in ordered)
 
-    def select(self, candidates, refs):
-        # Only known positive labels match: absent annotations never count as negative evidence.
+    @staticmethod
+    def visual_features(image):
+        """Small image descriptor for reference retrieval only, never phenotype prediction."""
+        thumbnail = image.convert("RGB")
+        thumbnail.thumbnail((48, 48))
+        histogram = thumbnail.convert("HSV").histogram()
+        pixels = max(1, thumbnail.width * thumbnail.height)
+        colors = tuple(sum(histogram[channel * 256 + index:channel * 256 + index + 32]) / pixels
+                       for channel in range(3) for index in range(0, 256, 32))
+        gray = thumbnail.convert("L")
+        values = list(gray.tobytes())
+        differences = [abs(values[row * gray.width + col] - values[row * gray.width + col - 1]) / 255
+                       for row in range(gray.height) for col in range(1, gray.width)]
+        return colors + (sum(differences) / max(1, len(differences)),)
+
+    def reference_features(self, ref):
+        image_path = ref.get("image")
+        if not image_path:
+            return None, float(ref.get("width", 0)), float(ref.get("height", 0))
+        path = (self.root / image_path).resolve()
+        if not path.is_relative_to(self.root.resolve()) or not path.is_file():
+            fail("references_unavailable", "A packaged reference image is missing.", 503)
+        stat = path.stat()
+        key = (str(path), stat.st_mtime_ns, stat.st_size)
+        if key not in self._feature_cache:
+            for old_key in [entry for entry in self._feature_cache if entry[0] == str(path)]:
+                del self._feature_cache[old_key]
+            try:
+                with Image.open(path) as image:
+                    width, height = image.size
+                    self._feature_cache[key] = self.visual_features(image), width, height
+            except (OSError, ValueError, Image.DecompressionBombError):
+                fail("references_unavailable", "A packaged reference image cannot be decoded.", 503)
+        return self._feature_cache[key]
+
+    def select(self, candidates, refs, uploaded=None):
+        # Positive-label coverage first. Within a label signature, retrieve visually similar
+        # usable photographs rather than always retaining the first manifest entry.
+        # These distances are internal reference retrieval, never class scores or evidence.
+        query = None
+        if uploaded:
+            with Image.open(io.BytesIO(uploaded)) as image:
+                query = self.visual_features(image)
         hypotheses = [{(t.trait_id, t.state) for t in c.traits} for c in candidates]
-        available, signatures = [], set()
+        groups = {}
         for ref in refs:
             signature = frozenset((t["trait_id"], t["state"]) for t in ref["traits"])
-            if signature not in signatures:
-                available.append((ref, signature))
-                signatures.add(signature)
-        selected, covered = [], set()
-        while available and len(selected) < 3:
-            def score(item):
-                _, labels = item
-                matches = [labels & hypothesis for hypothesis in hypotheses]
+            features, width, height = self.reference_features(ref)
+            quality = min(min(width, height) / 512, 1) * (min(width, height) / max(width, height) if width and height else 0)
+            similarity = -math.sqrt(sum((a - b) ** 2 for a, b in zip(query, features))) if query and features else 0
+            groups.setdefault(signature, []).append((ref, quality, similarity))
+        selected, covered, used_sources = [], set(), set()
+
+        def representative(records):
+            best_quality = max(item[1] for item in records)
+            usable = [item for item in records if item[1] >= best_quality - 0.2]
+            usable.sort(key=lambda item: item[0]["id"])
+            return max(usable, key=lambda item: (item[2], item[0].get("source_group", "legacy") not in used_sources, item[1]))
+
+        def add(signature):
+            chosen = representative(groups.pop(signature))[0]
+            selected.append(chosen)
+            used_sources.add(chosen.get("source_group", "legacy"))
+            covered.update(set().union(*(signature & h for h in hypotheses)))
+
+        while groups and len(selected) < 3:
+            def score(signature):
+                matches = [signature & h for h in hypotheses]
                 positives = set().union(*matches) if matches else set()
-                return (len(positives - covered), max((len(m) for m in matches), default=0), len(positives))
-            available.sort(key=lambda item: item[0]["id"])
-            best = max(available, key=score)
-            if score(best)[-1] == 0:
+                rep = representative(groups[signature])
+                return (len(positives - covered), max((len(m) for m in matches), default=0),
+                        len(positives), rep[2], rep[0].get("source_group", "legacy") not in used_sources, rep[1])
+            ordered = sorted(groups, key=lambda signature: tuple(sorted(signature)))
+            best = max(ordered, key=score)
+            if score(best)[2] == 0:
                 break
-            selected.append(best[0])
-            covered.update(set().union(*(best[1] & h for h in hypotheses)))
-            available.remove(best)
-        # If exact states are absent, offer a real same-locus alternate-state comparison.
-        # This does not count alternate states as supporting evidence for the upload.
-        loci = {trait for hypothesis in hypotheses for trait, _ in hypothesis}
-        for ref, labels in sorted(available, key=lambda item: item[0]["id"]):
-            if len(selected) >= 3:
-                break
-            if any(trait in loci for trait, _ in labels):
-                selected.append(ref)
-        # Catalog-wide visual contrast is still preferable to repeating the upload alone.
-        if not selected and refs:
-            selected = [sorted(refs, key=lambda ref: ref["id"])[0]]
+            add(best)
+        # Fill with same-locus alternate-state comparisons; absence stays unknown.
+        loci = {trait for h in hypotheses for trait, _ in h}
+        alternatives = [signature for signature in groups if any(trait in loci for trait, _ in signature)]
+        alternatives.sort(key=lambda signature: tuple(sorted(signature)))
+        while alternatives and len(selected) < 3:
+            signature = max(alternatives, key=lambda sig: (representative(groups[sig])[2], representative(groups[sig])[1]))
+            alternatives.remove(signature)
+            add(signature)
+        if not selected and groups:
+            best = max(groups, key=lambda sig: (representative(groups[sig])[2], representative(groups[sig])[1]))
+            add(best)
         return selected
 
 
@@ -452,7 +510,7 @@ def create_app(root=ROOT, config=None, provider=None):
         selected = []
         result = first
         if assessment_status(first) == "candidates":
-            selected = catalog.select(first.candidates, refs)
+            selected = catalog.select(first.candidates, refs, uploaded)
             if not selected:
                 fail("references_unavailable", "At least one real reference image is required for comparison.", 503)
             ref_images = [image_bytes((Path(root) / r["image"]).read_bytes()) for r in selected]

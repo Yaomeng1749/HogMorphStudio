@@ -201,9 +201,37 @@ class ServiceTests(unittest.TestCase):
         invalid.candidates.append(duplicate)
         with self.assertRaises(HTTPException):
             validate_result(invalid, catalog, {"albino-ref"})
+    def test_same_signature_retrieval_uses_visual_match_and_caches_features(self):
+        catalog = Catalog(self.root)
+        Image.new("RGB", (512, 512), "white").save(self.root / "data/course.jpg")
+        Image.new("RGB", (512, 512), "red").save(self.root / "data/genes.jpg")
+        traits = [{"trait_id": "albino", "state": "expressed"}]
+        refs = [dict(id="first-course", image="data/course.jpg", traits=traits, source_group="course"),
+                dict(id="later-genes", image="data/genes.jpg", traits=traits, source_group="genes")]
+        uploaded = (self.root / "data/genes.jpg").read_bytes()
+        selected = catalog.select(result(traits).candidates, refs, uploaded)
+        self.assertEqual([r["id"] for r in selected], ["later-genes"])
+        self.assertEqual(len(catalog._feature_cache), 2)
+        self.assertEqual(catalog.select(result(traits).candidates, list(reversed(refs)), uploaded), selected)
+        self.assertEqual(len(catalog._feature_cache), 2)
+        self.assertNotIn("similarity", selected[0])
+        (self.root / "data/genes.jpg").unlink()
+        with self.assertRaises(HTTPException):
+            catalog.select(result(traits).candidates, refs, uploaded)
+
+    def test_low_resolution_representative_does_not_win_only_by_visual_similarity(self):
+        catalog = Catalog(self.root)
+        Image.new("RGB", (512, 512), "white").save(self.root / "data/high.jpg")
+        Image.new("RGB", (8, 8), "red").save(self.root / "data/tiny.jpg")
+        traits = [{"trait_id": "albino", "state": "expressed"}]
+        refs = [dict(id="tiny", image="data/tiny.jpg", traits=traits), dict(id="usable", image="data/high.jpg", traits=traits)]
+        selected = catalog.select(result(traits).candidates, refs, (self.root / "data/tiny.jpg").read_bytes())
+        self.assertEqual(selected[0]["id"], "usable")
     def test_names(self):
         catalog = Catalog(self.root)
         self.assertEqual(catalog.names([{"trait_id": "anaconda", "state": "homozygous"}])[0], "Superconda")
+        compound = catalog.names([{"trait_id": "anaconda", "state": "homozygous"}, {"trait_id": "albino", "state": "expressed"}])
+        self.assertEqual(compound, ("Albino + Superconda", "白化 + 超级康达"))
         self.assertEqual(catalog.names([{"trait_id": "albino", "state": "expressed"}, {"trait_id": "axanthic", "state": "expressed"}])[0], "Snow")
 
 if __name__ == "__main__":
