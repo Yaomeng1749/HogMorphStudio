@@ -6,6 +6,8 @@ The 2024 MATLAB model shape and paper-specified FPPA denoising method have been 
 
 On 21 local course images with deterministic synthetic Gaussian noise, FPPA improved mean PSNR by 4.4450 dB (22.3315 to 26.7765) and SSIM by 0.2522 (0.5076 to 0.7598). This evaluates denoising against the original clean image only. The preprocessing effect on morph recognition is unknown.
 
+The source workbook contains 101 named rows, but only 21 rows have matching images and historical annotations; the remaining 80 are blank placeholders. Those annotations have not been verified against individual IDs, a label codebook, breeder evidence, or image training/evaluation permissions. The `White Wall` column is an appearance descriptor and is excluded from genetic trait training. The 21 images were used as pixel inputs only for the FPPA experiment. See the [course workbook audit](course-workbook-audit.md); no morph-classifier training or evaluation has been performed.
+
 **Task:** multi-label *visible phenotype* screening for Western hognose photos. Each independent output corresponds to a canonical expressed trait/state such as `albino:expressed`, `anaconda:heterozygous`, or `anaconda:homozygous`. The UI may derive known combination names from component scores, but an image result remains a hypothesis pending review.
 
 ## Why MobileNetV3-Small first

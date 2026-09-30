@@ -32,6 +32,8 @@ This is a working research prototype, not a validated genetic test. The MobileNe
 
 The live browser baseline compares color histograms and a coarse spatial color grid with the original **21-photo local course archive** when that archive is available on the developer's machine. It measures nearest-image color/layout overlap and sample support only. Its background, crop, and lighting sensitivity make it unsuitable for genotype or carrier-status decisions. The archive is not distributed in this repository. A clean clone remains usable for curation and deliberately shows no comparison score until a rights-cleared reference set is supplied.
 
+The source workbook has 101 named rows, but only 21 have matching images and annotations; the other 80 are blank placeholders. Its historical `White Wall` column is treated as an appearance descriptor, not a genetic trait. None of the 21 records has cleared the current training gate. See the [course workbook audit](docs/course-workbook-audit.md).
+
 ### Implemented model work
 
 | Work | Result | What it establishes |
