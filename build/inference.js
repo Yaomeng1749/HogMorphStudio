@@ -17,7 +17,7 @@
         'analysis-method-link': tr('How the model reasons ↘', '模型如何判断 ↘'),
         'model-eyebrow': tr('UNDER THE HOOD', '识别原理'),
         'model-title': tr('A vision model, real references.', '视觉模型与真实参考图。'),
-        'model-intro-text': tr('The live demo uses a pretrained multimodal model through Python/FastAPI. Ollama qwen3-vl:4b-instruct is the default; an OpenAI-compatible vision endpoint can also be configured. No morph classifier is trained by this demo. Initial reference-set runs identified Albino but missed components in Snow/Sunburst and did not resolve Superconda. The new library import does not establish validation success.', '实时演示通过 Python/FastAPI 调用预训练多模态模型，默认使用 Ollama qwen3-vl:4b-instruct，也支持配置 OpenAI 兼容视觉接口。本演示没有训练专用形态分类器。初始参考集实测识别白化成分，但 Snow、Sunburst 有成分遗漏，Superconda 未完成判断；新图库导入不等于验证成功。'),
+        'model-intro-text': tr('The live demo uses a pretrained multimodal model through Python/FastAPI. Ollama qwen3-vl:4b-instruct is the default; an OpenAI-compatible vision endpoint can also be configured. No morph classifier is trained by this demo. Expanded-library checks identified Albino and Superconda components but still missed other combinations. Reference-library checks do not establish independent recognition accuracy.', '实时演示通过 Python/FastAPI 调用预训练多模态模型，默认使用 Ollama qwen3-vl:4b-instruct，也支持配置 OpenAI 兼容视觉接口。本演示没有训练专用形态分类器。扩充参考库后的实测识别了白化与 Superconda 成分，其他组合仍有遗漏；参考库内检查不能证明独立识别准确率。'),
         'model-step1-title': tr('Observe the photo', '观察照片'),
         'model-step1-text': tr('The vision model checks the subject and describes visible pattern and color evidence. Ambiguous or unsuitable images can receive no call.', '视觉模型检查主体，描述可见花纹与颜色依据；模糊或不适合的图片可以拒绝判断。'),
         'model-step2-title': tr('Compare real references', '比较真实参考图'),

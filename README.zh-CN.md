@@ -15,7 +15,7 @@ Demo 默认使用 Ollama 的 `qwen3-vl:4b-instruct` **预训练多模态模型**
 
 默认英语，支持中文。数据整理、物种参考、形态术语与原有研究模块均保留。
 
-> **实验性 demo：** 初始 18 张参考图的实测白化拆解成功，但 Snow、Sunburst 漏掉组合成分，Superconda 未完成判断；新增数据本身不等于识别准确率已验证。使用前请阅读[实测结果与限制](docs/demo-acceptance.md)，人工复核模型候选。
+> **实验性 demo：** 扩充参考库后，白化和 Superconda 的预期成分进入候选，其他组合仍有遗漏。图库有 886 张参考照片，识别准确率尚未经过独立验证。使用前请阅读[实测结果与限制](docs/demo-acceptance.md)，人工复核模型候选。
 
 ## 本地运行
 
@@ -49,6 +49,8 @@ Lucy、Chocolate、Skull Face 不进入支持的课程参考集；未记录性�
 项目所有者已要求删除 207 张视觉候选图，它们不再进入 demo 或训练语料；16 张不确定照片仍在本机隔离。监督研究仍受单蛇身份和独立评估数据不足的限制。
 
 ## 界面
+
+![886 张已标注参考图](docs/assets/reference-library.png)
 
 ![表型分析界面](docs/assets/multimodal-result-zh.png)
 

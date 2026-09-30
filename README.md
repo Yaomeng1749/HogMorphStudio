@@ -15,7 +15,7 @@ Results show up to three candidate morphs, component traits, visible observation
 
 English is the default; the entire workbench also supports Chinese. Dataset curation, species references, morph terminology, and the original research modules remain available.
 
-> **Experimental demo:** initial local runs with the 18-photo library returned the expected Albino component set, but missed Snow/Sunburst components and did not resolve Superconda. New data does not itself establish recognition accuracy. Review [measured runs and limitations](docs/demo-acceptance.md) before using model suggestions.
+> **Experimental demo:** expanded-library local checks returned the expected Albino and Superconda components, but still missed other combinations. The archive has 886 references; recognition accuracy is not independently validated. Review [measured runs and limitations](docs/demo-acceptance.md) before using model suggestions.
 
 ## Run the demo
 
@@ -49,6 +49,8 @@ These images supply comparison context. They are not an independent test set, an
 The owner requested removal of the 207 incoming visual candidates. They are no longer part of the demo or a training corpus; 16 uncertain images remain quarantined privately. Missing individual identities and independent evaluation still limit the supervised research path.
 
 ## Interface
+
+![886-photo labelled reference library](docs/assets/reference-library.png)
 
 ![Phenotype analysis interface](docs/assets/multimodal-result.png)
 
