@@ -1,3 +1,18 @@
 {
-  "status": "no public image batch included"
+  "status": "candidate_batch_removed_by_owner",
+  "candidate_images": 0,
+  "deleted_candidate_images": 207,
+  "uncertain_quarantined_images": 16,
+  "training_eligible_images": 0,
+  "demo_reference_images": 18,
+  "user_confirmed_course_images": 21,
+  "note": "The owner requested removal of the 207 candidate images. The uncertain batch remains private and is not used by the demo or training. The 18 authorized demo references are packaged separately.",
+  "historical_total_files": 301,
+  "historical_decoded_images": 300,
+  "user_deleted_candidates": 207,
+  "visually_plausible_captive_western_hognose": 0,
+  "eligible_morph_training_images": 0,
+  "active_records": 16,
+  "decoded_images": 16,
+  "historical_confirmed_non_target": 77
 }

@@ -16,7 +16,14 @@
     if (!response.ok) throw new Error('intake summary unavailable');
     return response.json();
   }).then((summary) => {
-    if (summary.status?.startsWith('local visual intake') !== true) return;
+    const removed = summary.status === 'candidate_batch_removed_by_owner';
+    if (!removed && summary.status?.startsWith('local visual intake') !== true) return;
+    if (removed) {
+      copy.eyebrow = zh ? '本地批次状态' : 'LOCAL BATCH STATUS';
+      copy.title = zh ? '候选批次已移除' : 'Candidate batch removed';
+      copy.description = zh ? '207 张候选原图及预览已按要求删除。16 张物种仍待确认的照片只保留在私有复核区，不参与此演示。' : 'The 207 candidate originals and previews were deleted at the owner’s request. The 16 unresolved-species photos remain in private review and do not participate in this demo.';
+      copy.screened = zh ? '私有待确认照片' : 'private unresolved photos';
+    }
     $('incoming-eyebrow').textContent = copy.eyebrow;
     $('incoming-title').textContent = copy.title;
     $('incoming-description').textContent = copy.description;

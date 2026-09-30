@@ -13,3 +13,11 @@ data/reference_gallery.json
 data/incoming_summary.json
 data/incoming/
 source/*.docx
+
+.env
+.env.*
+!.env.example
+.runtime/
+.pytest_cache/
+
+.venv-*/

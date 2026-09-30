@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0.0",
+  "archive_name": "Genes.zip",
+  "archive_sha256": "d47b8ae98c10d6f84452f639938f476e91a09405ea8b311e4b8ba2a426ca809d",
+  "source_archive_local_only": true,
+  "folder_source_counts": {
+    "白化": 66,
+    "白化康达": 71,
+    "白化超级北极": 80,
+    "白化超级北极康达": 72,
+    "白化超级北极超级康达": 49,
+    "白化超级康达": 36,
+    "超级北极": 97,
+    "超级北极康达": 95,
+    "超级北极超级康达": 90,
+    "雪白": 80,
+    "雪白康达": 77,
+    "雪白超级康达": 55
+  },
+  "source_image_count": 868,
+  "packaged_genes_references": 868,
+  "retained_course_references": 18,
+  "total_demo_references": 886,
+  "packaged_jpeg_bytes": 114797614,
+  "metadata_entries_ignored": 872,
+  "exact_duplicate_groups": [],
+  "conflicting_exact_duplicates_quarantined": [],
+  "rejected_entries": [],
+  "perceptually_similar_pairs": [
+    {
+      "ids": [
+        "genes-507b0f1da0ad854b",
+        "genes-65af48fe925821e9"
+      ],
+      "dhash_distance": 2
+    },
+    {
+      "ids": [
+        "genes-2fdcd92e62db9bf5",
+        "genes-8e0dc230b9b3a726"
+      ],
+      "dhash_distance": 0
+    },
+    {
+      "ids": [
+        "genes-63fba171791bcff7",
+        "genes-b4928a97e01f03c1"
+      ],
+      "dhash_distance": 2
+    },
+    {
+      "ids": [
+        "genes-89f9a4ff716b0fa3",
+        "genes-c93344d2848ea8e1"
+      ],
+      "dhash_distance": 0
+    },
+    {
+      "ids": [
+        "genes-1806cf37a2996b28",
+        "genes-cd6ccb1d0e992c2e"
+      ],
+      "dhash_distance": 3
+    },
+    {
+      "ids": [
+        "genes-3f099b107ecad091",
+        "genes-df0db41c70c7b6e4"
+      ],
+      "dhash_distance": 2
+    }
+  ],
+  "similarity_rule": "64-bit dHash Hamming distance <=3; similarity flag only, not proof of duplicate or independent animal identity.",
+  "individual_identity_known": false,
+  "independent_test_eligible": false,
+  "labels_complete": false
+}
