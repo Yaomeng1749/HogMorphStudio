@@ -6,6 +6,7 @@ import json
 import os
 import time
 import warnings
+import uuid
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Literal
@@ -192,17 +193,18 @@ class Provider:
         return {"Authorization": "Bearer " + self.config.api_key} if self.config.api_key else {}
 
     async def infer(self, prompt, images):
+        self.last_raw_content = None
         c = self.config
         encoded = [base64.b64encode(i).decode() for i in images]
         if c.provider == "ollama":
             data = await self.request("POST", "/api/chat", json={"model": c.model, "stream": False,
-                "format": ModelResult.model_json_schema(), "options": {"temperature": 0, "num_predict": 3000},
+                "format": ModelResult.model_json_schema(), "options": {"temperature": 0, "num_ctx": int(os.getenv("HOGMORPH_CONTEXT_SIZE", "16384")), "num_predict": int(os.getenv("HOGMORPH_MAX_TOKENS", "1800"))},
                 "messages": [{"role": "user", "content": prompt, "images": encoded}]})
             content = data.get("message", {}).get("content", "")
         else:
             body = [{"type": "text", "text": prompt}] + [{"type": "image_url", "image_url": {"url": "data:image/jpeg;base64," + i}} for i in encoded]
             data = await self.request("POST", "/chat/completions", headers=self.headers(), json={"model": c.model,
-                "temperature": 0, "max_tokens": 3000, "messages": [{"role": "user", "content": body}],
+                "temperature": 0, "max_tokens": int(os.getenv("HOGMORPH_MAX_TOKENS", "1800")), "messages": [{"role": "user", "content": body}],
                 "response_format": {"type": "json_object"}})
             try:
                 content = data["choices"][0]["message"]["content"]
@@ -262,16 +264,24 @@ def create_app(root=ROOT, config=None, provider=None):
 
     async def infer_stage(stage, prompt, images):
         started = time.perf_counter()
-        result = await provider.infer(prompt, images)
-        trace_dir = os.getenv("HOGMORPH_TRACE_DIR")
-        if trace_dir:
-            destination = Path(trace_dir)
-            destination.mkdir(parents=True, exist_ok=True)
-            # Opt-in acceptance evidence only: no upload bytes, prompt, credentials or model thinking.
-            filename = destination / f"{time.time_ns()}-{stage}.json"
-            filename.write_text(json.dumps({"stage": stage, "model": config.model, "elapsed_seconds": time.perf_counter() - started,
-                                            "response": result.model_dump(), "raw_response": getattr(provider, "last_raw_content", None)}, ensure_ascii=False, indent=2))
-        return result
+        result, error_code = None, None
+        try:
+            result = await provider.infer(prompt, images)
+            return result
+        except HTTPException as error:
+            error_code = error.detail.get("code") if isinstance(error.detail, dict) else "provider_error"
+            raise
+        finally:
+            trace_dir = os.getenv("HOGMORPH_TRACE_DIR")
+            if trace_dir:
+                destination = Path(trace_dir)
+                destination.mkdir(parents=True, exist_ok=True)
+                # Opt-in acceptance evidence: capture even malformed JSON, never uploads or thinking.
+                filename = destination / f"{time.time_ns()}-{stage}-{uuid.uuid4().hex[:8]}.json"
+                filename.write_text(json.dumps({"stage": stage, "model": config.model,
+                    "elapsed_seconds": time.perf_counter() - started, "error_code": error_code,
+                    "response": result.model_dump() if result else None,
+                    "raw_response": getattr(provider, "last_raw_content", None)}, ensure_ascii=False, indent=2))
 
     @app.get("/api/status")
     async def status():
@@ -335,6 +345,8 @@ def create_app(root=ROOT, config=None, provider=None):
         safe |= bool(rel.parts and rel.parts[0] in {"build", "assets"} and rel.suffix.lower() in {".js", ".css", ".png", ".jpg", ".jpeg", ".webp", ".svg", ".woff", ".woff2", ".mp4"})
         safe |= asset_path in {"data/ontology.json", "data/catalog.json", "data/project_summary.json", "data/demo_references.json", "data/reference_gallery.json", "data/incoming_summary.json", "data/species_manifest.json", "data/captive_species_manifest.json"}
         safe |= bool(len(rel.parts) > 2 and rel.parts[:2] == ("data", "species_only") and rel.suffix.lower() in {".jpg", ".jpeg", ".png", ".webp"})
+        safe |= bool(rel.parts and rel.parts[0] == "docs" and rel.suffix.lower() in {".md", ".png", ".jpg", ".jpeg", ".webp", ".gif", ".svg", ".mp4"})
+        safe |= asset_path in {"README.md", "README.zh-CN.md", "ASSET_RIGHTS.md", "LICENSE-CODE"}
         if not safe:
             try:
                 safe = asset_path in {r["image"] for r in catalog.references()}

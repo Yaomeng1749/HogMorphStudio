@@ -84,6 +84,26 @@ class ServiceTests(unittest.TestCase):
         for path in ["/.env", "/.git/config", "/requirements-demo.txt", "/data/../.env"]:
             self.assertEqual(client.get(path).status_code, 404)
         self.assertEqual(client.get("/data/reference.jpg").status_code, 200)
+    def test_failed_output_trace_and_document_assets(self):
+        import os
+        from unittest.mock import patch
+        class InvalidProvider(FakeProvider):
+            async def infer(self, prompt, images):
+                self.last_raw_content = '{"malformed": true}'
+                raise HTTPException(502, {"code": "invalid_model_output", "message": "Invalid"})
+        trace = self.root / "private-traces"
+        (self.root / "docs").mkdir()
+        (self.root / "docs" / "guide.md").write_text("guide")
+        client = self.client(InvalidProvider([]))
+        with patch.dict(os.environ, {"HOGMORPH_TRACE_DIR": str(trace)}):
+            self.assertEqual(self.post(client).status_code, 502)
+        records = list(trace.glob("*.json"))
+        self.assertEqual(len(records), 1)
+        captured = json.loads(records[0].read_text())
+        self.assertEqual(captured["raw_response"], '{"malformed": true}')
+        self.assertEqual(captured["error_code"], "invalid_model_output")
+        self.assertEqual(client.get("/docs/guide.md").status_code, 200)
+        self.assertEqual(client.get("/private-traces/" + records[0].name).status_code, 404)
     def test_names(self):
         catalog = Catalog(self.root)
         self.assertEqual(catalog.names([{"trait_id": "anaconda", "state": "homozygous"}])[0], "Superconda")
