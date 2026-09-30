@@ -165,6 +165,21 @@ class ServiceTests(unittest.TestCase):
         self.assertEqual(len(VISUAL_CODEBOOK_SOURCES), 7)
         self.assertNotIn("figure06", prompt)
         self.assertNotIn("x.png", prompt)
+    def test_alternate_state_reference_and_provisional_contract(self):
+        from demo.service import prompt_for
+        catalog = Catalog(self.root)
+        traits = [{"trait_id": "arctic", "state": "heterozygous"}]
+        hypothesis = result(traits).candidates
+        ref = {"id": "super-arctic", "traits": [{"trait_id": "arctic", "state": "homozygous"}]}
+        self.assertEqual(catalog.select(hypothesis, [ref]), [ref])
+        unrelated = {"id": "albino", "traits": [{"trait_id": "albino", "state": "expressed"}]}
+        self.assertEqual(len(catalog.select(hypothesis, [unrelated])), 1)
+        prompt = prompt_for(catalog, "en", [ref], [hypothesis[0].model_dump()])
+        self.assertIn("Provisional first-pass hypotheses (NOT ground truth)", prompt)
+        self.assertIn("Every proposed component requires its own visible cue", prompt)
+        self.assertIn("Prefer the minimal supported component set", prompt)
+        self.assertIn("Do not infer unseen belly features", prompt)
+        self.assertIn("Lack of pedigree/genetic proof alone", prompt)
     def test_names(self):
         catalog = Catalog(self.root)
         self.assertEqual(catalog.names([{"trait_id": "anaconda", "state": "homozygous"}])[0], "Superconda")
