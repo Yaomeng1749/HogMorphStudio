@@ -23,7 +23,7 @@ The image review is only a visual species screen. It did not assign morph labels
 
 ## Source and text metadata check
 
-An English-only OCR scan found no exact breeder morph-name strings. Chinese text recognition was not available in the local OCR runtime, so embedded Chinese captions remain unreviewed. A read-only EXIF scan found no usable artist/copyright/source fields; 24 originals contain GPS metadata. This does not establish ownership or permission. Only metadata-stripped previews are used for review.
+The initial English-only OCR scan found no exact breeder morph-name strings. A later local Tesseract 5.5.1 `chi_sim+eng` pass scanned all 207 visual candidates and found 0 exact ontology-term hits, with 0 OCR failures. Small, stylized, or non-text captions may still be missed; an OCR miss is not evidence that an image lacks a source or morph label. The OCR report is stored in the user's Application Support review folder, contains no recognized free text or image paths, and is not part of the project or training manifest. A read-only EXIF scan found no usable artist/copyright/source fields; 24 originals contain GPS metadata. This does not establish ownership or permission. Only metadata-stripped previews are used for review.
 
 ## Training readiness
 

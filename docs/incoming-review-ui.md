@@ -12,6 +12,22 @@ Open `http://127.0.0.1:8765`. To use another local port, pass `--port 8766`; the
 
 完成去除元数据的预览图预处理后，启动本地服务并打开 `http://127.0.0.1:8765`。可用 `--port 8766` 指定其他端口；监听地址固定为 `127.0.0.1`。按 Ctrl-C 停止服务。界面默认显示候选照片，也可筛选待确认照片。默认英文，可切换中文。
 
+### Optional Chinese/English morph-name OCR hints
+
+The private review batch may contain Chinese captions that the original English-only OCR pass could not read. If Tesseract 5 and its `chi_sim` and `eng` language data are available locally, scan the metadata-stripped review previews:
+
+```sh
+python3 scripts/scan_incoming_morph_text.py \
+  --inventory "$HOME/Library/Application Support/HogMorphStudio/incoming-review/active_inventory.json" \
+  --output "$HOME/Library/Application Support/HogMorphStudio/incoming-review/morph-ocr-hints.json" \
+  --tessdata-dir "/path/to/tessdata" \
+  --include-uncertain
+```
+
+The private output contains only source index/hash, possible term, OCR line confidence, and a human-review-required state. It omits the image, local filename, and recognized free text. OCR hits are search hints only: they do not establish a morph label, genotype, image ownership, or training permission. A reviewer must inspect the original source and supporting breeding/genetic evidence before recording any trait.
+
+Tesseract's [official fast Simplified Chinese model](https://github.com/tesseract-ocr/tessdata_fast/blob/main/chi_sim.traineddata) and English model are required; the upstream [language-data repository](https://github.com/tesseract-ocr/tessdata_fast) uses Apache-2.0, and [Tesseract documents how to install language data](https://github.com/tesseract-ocr/tessdoc/blob/main/Installation.md). Install the files locally and retain their license notices. Do not copy OCR model weights into a dataset release or treat OCR as image-label verification.
+
 Review annotations are stored in this browser's `localStorage`, one record per source SHA-256. Use **Download JSON review export** to save a copy. Clearing browser storage removes browser annotations unless you exported them. A confirmed non-Western-Hognose decision is also recorded server-side in the fixed Application Support `review_state.json`, keyed by inventory index and source SHA-256; it is written atomically. This state file contains no annotations or image data and is outside the repository.
 
 The queue shows field-entry counts for manual species confirmation, individual IDs, reviewed morph evidence, and rights scopes. These counters describe what has been entered; they do not independently verify permissions or mark records training eligible. **Next unreviewed** advances within the selected candidate/uncertain queue based on the local review-status field. Export and inspect evidence before treating any count as a completed curation milestone.
