@@ -287,8 +287,12 @@ class Catalog:
             alternatives.remove(signature)
             add(signature)
         if not selected and groups:
-            best = max(groups, key=lambda sig: (representative(groups[sig])[2], representative(groups[sig])[1]))
-            add(best)
+            # With usable target anatomy but no first-pass phenotype, compare up to three
+            # visually related distinct signatures. Retrieval never creates a candidate.
+            count = 3 if not hypotheses else 1
+            for _ in range(min(count, len(groups))):
+                best = max(groups, key=lambda sig: (representative(groups[sig])[2], representative(groups[sig])[1]))
+                add(best)
         return selected
 
 
@@ -509,7 +513,7 @@ def create_app(root=ROOT, config=None, provider=None):
         validate_result(first, catalog, set())
         selected = []
         result = first
-        if assessment_status(first) == "candidates":
+        if first.assessment.species == "western_hognose" and first.assessment.animal_count == 1 and first.assessment.usable:
             selected = catalog.select(first.candidates, refs, uploaded)
             if not selected:
                 fail("references_unavailable", "At least one real reference image is required for comparison.", 503)

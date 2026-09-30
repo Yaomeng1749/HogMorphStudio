@@ -227,6 +227,28 @@ class ServiceTests(unittest.TestCase):
         refs = [dict(id="tiny", image="data/tiny.jpg", traits=traits), dict(id="usable", image="data/high.jpg", traits=traits)]
         selected = catalog.select(result(traits).candidates, refs, (self.root / "data/tiny.jpg").read_bytes())
         self.assertEqual(selected[0]["id"], "usable")
+    def test_usable_target_without_first_hypothesis_compares_real_references(self):
+        traits = [{"trait_id": "albino", "state": "expressed"}]
+        provider = FakeProvider([result(), result(traits, ["albino-ref"])])
+        response = self.post(self.client(provider))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["status"], "candidates")
+        self.assertEqual([call[1] for call in provider.calls], [1, 2])
+        provider = FakeProvider([result(), result()])
+        response = self.post(self.client(provider))
+        self.assertEqual(response.json()["status"], "insufficient_evidence")
+        self.assertEqual(len(provider.calls), 2)
+        provider = FakeProvider([result(usable=False)])
+        response = self.post(self.client(provider))
+        self.assertEqual(response.json()["status"], "insufficient_evidence")
+        self.assertEqual(len(provider.calls), 1)
+        catalog = Catalog(self.root)
+        refs = [dict(id="a", traits=traits), dict(id="b", traits=[{"trait_id": "arctic", "state": "heterozygous"}]),
+                dict(id="c", traits=[{"trait_id": "arctic", "state": "homozygous"}]), dict(id="duplicate", traits=traits)]
+        selected = catalog.select([], refs, self.png.getvalue())
+        self.assertEqual(len(selected), 3)
+        signatures = {tuple((t["trait_id"], t["state"]) for t in r["traits"]) for r in selected}
+        self.assertEqual(len(signatures), 3)
     def test_names(self):
         catalog = Catalog(self.root)
         self.assertEqual(catalog.names([{"trait_id": "anaconda", "state": "homozygous"}])[0], "Superconda")
