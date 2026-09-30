@@ -188,6 +188,35 @@ class Catalog:
                 fail("references_unavailable", "A packaged reference image is missing.", 503)
         return records
 
+    def guide_image_paths(self):
+        """Local guide-only assets, separate from phenotype model references."""
+        try:
+            manifest = json.loads((self.root / "data/reference_gallery.json").read_text())
+        except (OSError, ValueError):
+            return set()
+        records = manifest.get("images", []) if isinstance(manifest, dict) else []
+        if not isinstance(records, list):
+            return set()
+        allowed = set()
+        for record in records:
+            value = record.get("file") if isinstance(record, dict) else None
+            if not isinstance(value, str):
+                continue
+            rel = Path(value)
+            if (len(rel.parts) != 2 or rel.parts[0] != "reference_images" or
+                    rel.suffix.lower() not in {".jpg", ".jpeg", ".png", ".webp"} or
+                    any(part.startswith(".") for part in rel.parts)):
+                continue
+            folder = self.root / "data/reference_images"
+            path = self.root / "data" / rel
+            # Reject aliases through either the file or its directory chain. Otherwise a
+            # manifest-listed JPEG symlink could reveal a private document inside the repo.
+            if (folder.is_symlink() or (self.root / "data").is_symlink() or path.is_symlink() or
+                    not path.is_file() or not path.resolve().is_relative_to(folder.resolve())):
+                continue
+            allowed.add("data/" + rel.as_posix())
+        return allowed
+
     def names(self, traits):
         signature = {(t["trait_id"], t["state"]) for t in traits}
         for alias in self.aliases:
@@ -548,6 +577,8 @@ def create_app(root=ROOT, config=None, provider=None):
         safe |= bool(len(rel.parts) > 2 and rel.parts[:2] == ("data", "species_only") and rel.suffix.lower() in {".jpg", ".jpeg", ".png", ".webp"})
         safe |= bool(rel.parts and rel.parts[0] == "docs" and rel.suffix.lower() in {".md", ".png", ".jpg", ".jpeg", ".webp", ".gif", ".svg", ".mp4"})
         safe |= asset_path in {"README.md", "README.zh-CN.md", "ASSET_RIGHTS.md", "LICENSE-CODE"}
+        if not safe:
+            safe = asset_path in catalog.guide_image_paths()
         if not safe:
             try:
                 safe = asset_path in {r["image"] for r in catalog.references()}
