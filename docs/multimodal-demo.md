@@ -52,7 +52,7 @@ The first pass observes the uploaded image. The server selects at most three rel
 
 ## References and limitations
 
-18 owner-authorized, user-confirmed friend-provided course photographs are included. Figure12 (Lucy), figure14 (Chocolate), and figure15 (Skull Face) remain outside the supported demo set. The original 21-photo material is not a supervised training or independent test dataset.
+886 real reference photographs are included: 868 owner-supplied folder-labelled Genes images and 18 confirmed course photographs. See [dataset mapping](genes-dataset.md). Figure12 (Lucy), figure14 (Chocolate), and figure15 (Skull Face) remain outside the supported demo set. The original 21-photo material is not a supervised training or independent test dataset.
 
 Only seven loci enter candidate output: Anaconda, Arctic, Albino, Axanthic, Sable, Toffee Belly, and Lavender. Anaconda and Arctic retain heterozygous/homozygous phenotype states; recessive visible traits use `expressed`. Carrier inference is excluded. Unresolved historical labels and Extreme Red are omitted from components; their omission does not establish their absence in the photographed animal. White Wall is not a gene. `labels_complete=false` means unlisted traits are unknown, never explicit negatives.
 
@@ -71,3 +71,7 @@ Use `qwen3-vl:4b-instruct`. Ollama’s shorter `qwen3-vl:4b` tag currently resol
 ## Measured behavior
 
 See [actual local acceptance runs](demo-acceptance.md). The implemented inference chain is operational, but the default 4B model did not consistently identify all four requested demonstration phenotypes. These unresolved cases are recorded explicitly; configuring another vision model does not itself prove improved recognition.
+
+## Reference retrieval
+
+Candidate components determine reference relevance and coverage. Lightweight image features may select visually similar photographs within the relevant label group. Retrieval only chooses up to three real comparison photographs; it does not produce candidate genes, evidence levels, probabilities or a classifier fallback. The configured multimodal model still performs observation and comparison.

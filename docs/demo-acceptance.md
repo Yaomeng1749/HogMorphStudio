@@ -29,7 +29,7 @@ Visual rules are descriptive clues, not genetic proof: [Albino](https://www.rept
 
 ## Boundaries and reproducibility
 
-- Clean clone at the same code SHA: demo-only dependencies, no torch installed/imported, TypeScript typecheck/build, 16 unit tests, unified startup, 18 reference images loading, private paths rejected.
+- Clean clone at `1eb4d42`: demo-only dependencies, no torch installed/imported, TypeScript typecheck/build, 15 unit tests at that clone; 16 after response normalization, unified startup, 18 reference images loading, private paths rejected.
 - Actual non-snake illustration: `non_target`; blank image: `insufficient_evidence`; corrupted file: HTTP 400 `invalid_image`. These results were repeated successfully on the final prompt (8.51 s, 4.45 s, 0.05 s respectively).
 - Missing model, timeout, malformed provider output, conflicting trait states, invented reference IDs, text-only Ollama models, oversized/chunked multipart uploads, and OpenAI-compatible image payloads are covered by deterministic tests. Cloud service inference has **not** been exercised.
 - An independent fresh-context Codex code review was used. A separate Claude route was unavailable due to OAuth 401; no cross-family review is claimed.
@@ -50,12 +50,12 @@ Raw responses are private opt-in verification artifacts, not uploaded archives o
 | observe | `4087a653d4c2625ee6041113831f723928dfaaecc7f03b431d32092f59e4d662` |
 | compare | `a98e48786f58b661d99958d3dd6a9cccccf489844c75ec21377330d8a796e9e6` |
 
-## Recording
-
-The [69-second full recording](assets/hogmorph-multimodal-demo.mp4) contains an actual English Albino request, 47.839 seconds end to end, and a Chinese collection view. The same photo was rehearsed before recording. Browser errors and broken result-reference images: zero. No API response mocks or prepared results were used.
-
 ## Chinese response normalization
 
 An actual Chinese request produced repeated valid hypotheses. After validating every original trait/state/reference, the server now stably removes repeated hypotheses and citations without inventing or merging evidence. Conflicts and invented references remain errors. The phenotype prompt is unchanged from the four-case run; this narrow normalization change has separate regression coverage.
 
 The repeated real Chinese request after normalization returned HTTP 200, candidates 白化 / 薰衣草, Chinese observations, and 48.362 seconds end-to-end latency. See [Chinese result screenshot](assets/multimodal-result-zh.png). A real missing-model check used the actual local Ollama model list, returned `ready=false/model_missing`, rejected analysis with HTTP 503, and performed zero image inference calls.
+
+## Expanded archive
+
+The user subsequently supplied 868 labelled photographs and withdrew the recording requirement. The public reference archive now contains 886 photographs. Initial results above describe the original 18-photo archive; expanded-library runs are recorded separately.

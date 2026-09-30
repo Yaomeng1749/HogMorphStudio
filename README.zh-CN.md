@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/hero-natural-history.png" alt="AI 生成的西部猪鼻蛇插画，不是样本数据" width="900">
+  <img src="assets/hero-natural-history.png" alt="西部猪鼻蛇概念视觉" width="900">
   <h1>HogMorph Studio</h1>
   <p><strong>观察表型，尊重未知。</strong></p>
   <p>双语西部猪鼻蛇表型辅助判断工具：上传照片、对照真实参考图，并了解组合名称背后的基础性状。</p>
@@ -15,7 +15,7 @@ Demo 默认使用 Ollama 的 `qwen3-vl:4b-instruct` **预训练多模态模型**
 
 默认英语，支持中文。数据整理、物种参考、形态术语与原有研究模块均保留。
 
-> **实验性 demo：** 本地实测白化拆解成功，但 Snow、Sunburst 漏掉组合成分，Superconda 未完成判断。使用前请阅读[实测结果与限制](docs/demo-acceptance.md)，人工复核模型候选。
+> **实验性 demo：** 初始 18 张参考图的实测白化拆解成功，但 Snow、Sunburst 漏掉组合成分，Superconda 未完成判断；新增数据本身不等于识别准确率已验证。使用前请阅读[实测结果与限制](docs/demo-acceptance.md)，人工复核模型候选。
 
 ## 本地运行
 
@@ -38,7 +38,9 @@ npm run demo
 
 ## 真实参考图与能力边界
 
-项目所有者已确认朋友提供的 21 张课程照片的历史标签，并授权用于本 demo。其中 **18 张随仓库作为表型参考图分发**；Lucy、Chocolate、Skull Face 不进入支持的参考集。标签仍是部分标注，未记录的性状保留为未知。未定义的历史标签、Extreme Red 与白墙不进入基础基因候选。
+仓库已包含 **886 张真实参考照片**：`Genes.zip` 中按 12 个组合标签整理的 868 张图片，以及原有 18 张课程参考图。目录标签拆解为基础性状和支持状态；原 ZIP 保留在本地，发布的图片经过方向校正、缩放和元数据清除。
+
+Lucy、Chocolate、Skull Face 不进入支持的课程参考集；未记录性状仍为未知，Extreme Red 与白墙不作为基础基因输出。详见[目录标签与数量](docs/genes-dataset.md)和[导入统计](data/genes_import_summary.json)。
 
 支持的基础性状为 Anaconda、Arctic、Albino、Axanthic、Sable、Toffee Belly、Lavender。Superconda、Super Arctic 保留纯合状态区别；Snow 拆解为 Albino + Axanthic，Sunburst 为 Albino + Sable。
 
@@ -46,15 +48,11 @@ npm run demo
 
 项目所有者已要求删除 207 张视觉候选图，它们不再进入 demo 或训练语料；16 张不确定照片仍在本机隔离。监督研究仍受单蛇身份和独立评估数据不足的限制。
 
-## 演示录屏
+## 界面
 
-[![真实本地推理录屏](docs/assets/multimodal-preview.gif)](docs/assets/hogmorph-multimodal-demo.mp4)
+![表型分析界面](docs/assets/multimodal-result-zh.png)
 
-**[观看完整真实推理视频](docs/assets/hogmorph-multimodal-demo.mp4)** · [中文结果截图](docs/assets/multimodal-result-zh.png) · [实测记录](docs/demo-acceptance.md)
-
-视频上传已授权的 Albino 参考照片，等待真正的两阶段 Ollama 请求（本次 **47.84 秒**），展示候选、基础性状、依据与实拍参考图，最后切到中文整理页。未模拟或替换模型响应；预览为短片段，完整视频保留等待过程与错误备选。使用的是已知参考照片，不能据此得出独立准确率。
-
-旧[界面导览视频](docs/assets/hogmorph-studio-demo.mp4)保留为历史整理界面记录。其中待整理图及 README 主视觉是 AI 插画，不属于样本证据。
+[真实推理记录](docs/demo-acceptance.md) · [已标注数据集](docs/genes-dataset.md)
 
 ## 保留的研究线路
 

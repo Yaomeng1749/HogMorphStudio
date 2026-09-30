@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/hero-natural-history.png" alt="AI-generated Western Hognose illustration; not specimen data" width="900">
+  <img src="assets/hero-natural-history.png" alt="Western Hognose concept artwork" width="900">
   <h1>HogMorph Studio</h1>
   <p><strong>See the pattern. Respect the unknown.</strong></p>
   <p>A bilingual Western Hognose phenotype assistant: upload a photo, compare visible evidence with real reference photographs, and explore the genes behind morph names.</p>
@@ -9,13 +9,13 @@
 
 ## Photo → observation → reference comparison
 
-The demo uses a **pretrained vision-language model**, with Ollama's `qwen3-vl:4b-instruct` as the default. It observes the uploaded photo, proposes phenotype candidates, then compares the photo against up to three relevant real reference images. The server validates trait IDs and states and derives combination names from the project's ontology.
+The demo uses a **pretrained vision-language model**, with Ollama's `qwen3-vl:4b-instruct` as the default. It observes the uploaded photo, proposes phenotype candidates, then compares the photo against up to three relevant real reference images from the 886-photo archive. The server validates trait IDs and states and derives combination names from the project's ontology.
 
 Results show up to three candidate morphs, component traits, visible observations, evidence strength, limitations, real reference photographs, the model used, and measured request duration. Evidence strength is qualitative; it is not calibrated probability, softmax confidence, or proof of a genotype. A photo cannot establish hidden carrier status.
 
 English is the default; the entire workbench also supports Chinese. Dataset curation, species references, morph terminology, and the original research modules remain available.
 
-> **Experimental demo:** actual local runs returned the expected Albino component set, but missed Snow/Sunburst components and did not resolve Superconda. Review [measured runs and limitations](docs/demo-acceptance.md) before using model suggestions.
+> **Experimental demo:** initial local runs with the 18-photo library returned the expected Albino component set, but missed Snow/Sunburst components and did not resolve Superconda. New data does not itself establish recognition accuracy. Review [measured runs and limitations](docs/demo-acceptance.md) before using model suggestions.
 
 ## Run the demo
 
@@ -38,7 +38,9 @@ See [demo configuration and behavior](docs/multimodal-demo.md) for provider conf
 
 ## Real references, limited claims
 
-The project owner confirmed the historical labels of 21 friend-provided course photographs and authorized their use for this demo. **18 photographs are packaged as phenotype references**; Lucy, Chocolate, and Skull Face remain outside the supported reference set. Their available labels are partial: unrecorded traits remain unknown. Unresolved historical labels, Extreme Red, and White Wall are excluded from genetic candidate output.
+**886 real reference photographs** are packaged: 868 owner-labelled images across 12 morph combinations from `Genes.zip`, plus 18 course references. The folder labels are decomposed into atomic traits and supported states. The original ZIP remains local; packaged images are oriented, resized and stripped of embedded metadata.
+
+Lucy, Chocolate and Skull Face remain outside the supported course set. Unrecorded traits remain unknown; Extreme Red and White Wall are not output as base loci. [Dataset counts and folder mapping](docs/genes-dataset.md) · [Import summary](data/genes_import_summary.json).
 
 The supported base traits are Anaconda, Arctic, Albino, Axanthic, Sable, Toffee Belly, and Lavender. Superconda and Super Arctic retain their homozygous distinctions. Combination names include Snow (Albino + Axanthic) and Sunburst (Albino + Sable).
 
@@ -46,15 +48,11 @@ These images supply comparison context. They are not an independent test set, an
 
 The owner requested removal of the 207 incoming visual candidates. They are no longer part of the demo or a training corpus; 16 uncertain images remain quarantined privately. Missing individual identities and independent evaluation still limit the supervised research path.
 
-## Demo recording
+## Interface
 
-[![Real local inference — watch the demo](docs/assets/multimodal-preview.gif)](docs/assets/hogmorph-multimodal-demo.mp4)
+![Phenotype analysis interface](docs/assets/multimodal-result.png)
 
-**[Watch the full real-inference video](docs/assets/hogmorph-multimodal-demo.mp4)** · [Result screenshot](docs/assets/multimodal-result.png) · [Measured runs](docs/demo-acceptance.md)
-
-The recording uploads the authorized Albino reference photo and waits for an actual two-stage Ollama request (**47.84 seconds** in this run), then shows candidates, component traits, evidence and real reference photographs. It ends in the Chinese collection view. Responses are not mocked or substituted. The preview is a short excerpt; the full recording preserves the wait. Incorrect alternatives remain visible. This uses a known reference photo and does not establish independent accuracy.
-
-The older [interface-tour video](docs/assets/hogmorph-studio-demo.mp4) remains an archive of the earlier curation interface. Its staged image and the README hero are AI illustrations, not specimen evidence.
+[Measured inference runs](docs/demo-acceptance.md) · [Labelled dataset](docs/genes-dataset.md)
 
 ## Research work retained
 
