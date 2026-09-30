@@ -128,6 +128,30 @@ test('corrupted upload, duplicate fields and invalid language rejected before pr
   const form = new FormData(); form.append('image', new Blob([image]), 'a.jpg'); form.append('image', new Blob([image]), 'b.jpg');
   await expectError(worker, new Request('https://demo.example/api/analyze', { method: 'POST', body: form }), 'invalid_image', 400);
 });
+test('header-only extended WebP, missing payload and malformed RIFF chunks reject before provider', async () => {
+  let providerCalls = 0;
+  const worker = createWorker(() => { providerCalls++; throw new Error('must not call'); });
+  const header = new Uint8Array(30);
+  header.set(new TextEncoder().encode('RIFF'), 0); header.set(new TextEncoder().encode('WEBPVP8X'), 8);
+  const view = new DataView(header.buffer); view.setUint32(4, 22, true); view.setUint32(16, 10, true);
+  await expectError(worker, upload(header), 'invalid_image', 400);
+  const truncated = new Uint8Array(39); truncated.set(header); truncated.set(new TextEncoder().encode('VP8 '), 30);
+  new DataView(truncated.buffer).setUint32(4, 31, true);
+  new DataView(truncated.buffer).setUint32(34, 10, true);
+  await expectError(worker, upload(truncated), 'invalid_image', 400);
+  const animated = header.slice(); animated[20] = 2;
+  await expectError(worker, upload(animated), 'invalid_image', 400);
+  assert.equal(providerCalls, 0);
+});
+test('actual static lossy and lossless WebP payloads pass structural validation', async () => {
+  // Two 2x2 images encoded by Pillow/libwebp, not manufactured container headers.
+  for (const encoded of ['UklGRhwAAABXRUJQVlA4TA8AAAAvAUAAAAcQ/Y/+ByKi/wEA',
+    'UklGRjwAAABXRUJQVlA4IDAAAADQAQCdASoCAAIAAUAmJaACdLoB+AADsAD+8ut//NgVzXPv9//S4P0uD9Lg/9KQAAA=']) {
+    const { worker } = mockProvider(() => { const value = result([]); value.assessment.species = 'non_target'; return value; });
+    const response = await worker.fetch(upload(Buffer.from(encoded, 'base64')), env);
+    assert.equal(response.status, 200); assert.equal((await response.json()).status, 'non_target');
+  }
+});
 test('actual streamed multipart bytes bounded even without content-length', async () => {
   const worker = createWorker(() => { throw new Error('must not call'); });
   let chunks = 0;

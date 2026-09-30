@@ -223,18 +223,44 @@ function imageMime(bytes) {
   }
   if (String.fromCharCode(...bytes.subarray(0,4)) === 'RIFF' && String.fromCharCode(...bytes.subarray(8,12)) === 'WEBP') {
     if (view.getUint32(4, true) + 8 !== bytes.length) invalid();
-    const kind = String.fromCharCode(...bytes.subarray(12,16)), length = view.getUint32(16,true);
-    if (20 + length > bytes.length || !['VP8 ', 'VP8L', 'VP8X'].includes(kind)) invalid();
-    if (kind === 'VP8X') {
-      if (length !== 10 || bytes.length < 30) invalid();
-      size(1 + bytes[24] + (bytes[25] << 8) + (bytes[26] << 16), 1 + bytes[27] + (bytes[28] << 8) + (bytes[29] << 16));
-    } else if (kind === 'VP8L') {
-      if (length < 5 || bytes[20] !== 0x2f) invalid();
-      const bits = view.getUint32(21,true); size((bits & 0x3fff) + 1, ((bits >>> 14) & 0x3fff) + 1);
-    } else {
-      if (length < 10 || bytes[23] !== 0x9d || bytes[24] !== 1 || bytes[25] !== 0x2a) invalid();
-      size(view.getUint16(26,true) & 0x3fff, view.getUint16(28,true) & 0x3fff);
+    let offset = 12, hasPixels = false, canvas = null;
+    while (offset < bytes.length) {
+      if (offset + 8 > bytes.length) invalid();
+      const kind = String.fromCharCode(...bytes.subarray(offset, offset + 4));
+      const length = view.getUint32(offset + 4, true), start = offset + 8, end = start + length;
+      const paddedEnd = end + (length & 1);
+      if (end > bytes.length || paddedEnd > bytes.length || ((length & 1) && bytes[end] !== 0)) invalid();
+      if (offset === 12 && !['VP8 ', 'VP8L', 'VP8X'].includes(kind)) invalid();
+      // Animated containers need frame decoding; require a single still image instead.
+      if (kind === 'ANIM' || kind === 'ANMF') invalid();
+      if (kind === 'VP8X') {
+        if (offset !== 12 || length !== 10 || (bytes[start] & 2)) invalid();
+        canvas = [1 + bytes[start+4] + (bytes[start+5] << 8) + (bytes[start+6] << 16),
+          1 + bytes[start+7] + (bytes[start+8] << 8) + (bytes[start+9] << 16)];
+        size(...canvas);
+      } else if (kind === 'VP8L' || kind === 'VP8 ') {
+        if (hasPixels) invalid();
+        let width, height;
+        if (kind === 'VP8L') {
+          // The five-byte lossless header alone is not a pixel payload.
+          if (length <= 5 || bytes[start] !== 0x2f) invalid();
+          const bits = view.getUint32(start + 1, true);
+          if (bits >>> 29) invalid();
+          width = (bits & 0x3fff) + 1; height = ((bits >>> 14) & 0x3fff) + 1;
+        } else {
+          // A still WebP VP8 chunk must contain a keyframe header plus compressed data.
+          if (length <= 10 || bytes[start+3] !== 0x9d || bytes[start+4] !== 1 || bytes[start+5] !== 0x2a) invalid();
+          const frameTag = bytes[start] | (bytes[start+1] << 8) | (bytes[start+2] << 16);
+          if ((frameTag & 1) || ((frameTag >>> 1) & 7) > 3 || (frameTag >>> 5) > length - 3) invalid();
+          width = view.getUint16(start + 6, true) & 0x3fff; height = view.getUint16(start + 8, true) & 0x3fff;
+        }
+        size(width, height);
+        if (canvas && (canvas[0] !== width || canvas[1] !== height)) invalid();
+        hasPixels = true;
+      } else if (!['ICCP', 'ALPH', 'EXIF', 'XMP '].includes(kind)) invalid();
+      offset = paddedEnd;
     }
+    if (!hasPixels || offset !== bytes.length) invalid();
     return 'image/webp';
   }
   invalid();
