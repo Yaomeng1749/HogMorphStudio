@@ -46,7 +46,7 @@ class ServiceTests(unittest.TestCase):
         (self.root / "data/demo_references.json").write_text(json.dumps({"schema_version": "1.0.0", "images": self.refs}))
         (self.root / "index.html").write_text("demo")
         (self.root / ".env").write_text("SECRET=hidden")
-        self.config = Config("ollama", "qwen3-vl:4b", "http://127.0.0.1:11434", "", 1)
+        self.config = Config("ollama", "qwen3-vl:4b-instruct", "http://127.0.0.1:11434", "", 1)
     def tearDown(self):
         self.temp.cleanup()
     def client(self, provider):
@@ -136,12 +136,12 @@ class AdapterTests(unittest.IsolatedAsyncioTestCase):
         class NativeProvider(Provider):
             async def request(self, method, endpoint, **kwargs):
                 if endpoint == "/api/tags":
-                    return {"models": [{"name": "qwen3-vl:4b"}]}
+                    return {"models": [{"name": "qwen3-vl:4b-instruct"}]}
                 if endpoint == "/api/show":
                     return {"capabilities": self.capabilities}
                 self.sent = kwargs["json"]
                 return {"message": {"content": result().model_dump_json(), "thinking": "private"}, "done_reason": "stop", "eval_count": 99}
-        provider = NativeProvider(Config("ollama", "qwen3-vl:4b", "http://127.0.0.1:11434", "", 1))
+        provider = NativeProvider(Config("ollama", "qwen3-vl:4b-instruct", "http://127.0.0.1:11434", "", 1))
         provider.capabilities = ["completion"]
         with self.assertRaises(HTTPException) as error:
             await provider.ready()

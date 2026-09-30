@@ -65,7 +65,7 @@ class Config:
     @classmethod
     def from_env(cls):
         provider = os.getenv("HOGMORPH_PROVIDER", "ollama")
-        return cls(provider, os.getenv("HOGMORPH_MODEL", "qwen3-vl:4b" if provider == "ollama" else ""),
+        return cls(provider, os.getenv("HOGMORPH_MODEL", "qwen3-vl:4b-instruct" if provider == "ollama" else ""),
                    os.getenv("HOGMORPH_BASE_URL", "http://127.0.0.1:11434" if provider == "ollama" else ""),
                    os.getenv("HOGMORPH_API_KEY", ""), float(os.getenv("HOGMORPH_TIMEOUT", "180")))
 

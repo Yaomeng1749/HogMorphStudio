@@ -9,7 +9,7 @@
 
 ## 照片 → 观察 → 实拍对照
 
-Demo 默认使用 Ollama 的 `qwen3-vl:4b` **预训练多模态模型**。先观察上传照片并提出表型候选，再将照片与最多三张相关真实参考图比较。服务端校验基础性状 ID 与状态，通过项目本体生成组合名。
+Demo 默认使用 Ollama 的 `qwen3-vl:4b-instruct` **预训练多模态模型**。先观察上传照片并提出表型候选，再将照片与最多三张相关真实参考图比较。服务端校验基础性状 ID 与状态，通过项目本体生成组合名。
 
 结果显示最多三个候选、基础性状拆解、可见依据、证据强弱、限制、实拍参考图、所用模型与请求耗时。证据强弱是定性判断，不是校准概率、softmax 置信度或基因型证明；照片无法证明隐性携带状态。
 
@@ -24,7 +24,7 @@ python3 -m venv .venv-demo
 source .venv-demo/bin/activate
 python -m pip install -r requirements-demo.txt
 npm ci
-ollama pull qwen3-vl:4b
+ollama pull qwen3-vl:4b-instruct
 npm run demo
 ```
 

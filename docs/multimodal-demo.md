@@ -9,7 +9,7 @@ python3 -m venv .venv-demo
 source .venv-demo/bin/activate
 python -m pip install -r requirements-demo.txt
 npm ci
-ollama pull qwen3-vl:4b
+ollama pull qwen3-vl:4b-instruct
 npm run demo
 ```
 
@@ -23,7 +23,7 @@ Default local configuration:
 
 ```dotenv
 HOGMORPH_PROVIDER=ollama
-HOGMORPH_MODEL=qwen3-vl:4b
+HOGMORPH_MODEL=qwen3-vl:4b-instruct
 HOGMORPH_BASE_URL=http://127.0.0.1:11434
 ```
 
@@ -63,3 +63,7 @@ Only seven loci enter candidate output: Anaconda, Arctic, Albino, Axanthic, Sabl
 Albino (figure06), Snow (figure16), Sunburst (figure18), and Superconda (figure04) are demonstration consistency cases. Since these are also reference images, outputs cannot establish independent accuracy. Record model name, raw outputs, candidate components, selected references, and duration for actual runs; keep any private image payloads out of logs.
 
 Also exercise: non-snake input, blank image, corrupt file, unavailable model, timeout, invalid structured output, conflicting states, invalid reference IDs, and English/Chinese rendering. A successful adapter mock is reported separately from actual local inference. Request latency belongs to this full VLM chain; random-weight CNN/MobileNet timings must not be substituted for it.
+
+## Exact local model tag
+
+Use `qwen3-vl:4b-instruct`. Ollama’s shorter `qwen3-vl:4b` tag currently resolves to the Thinking variant, which exhausted the bounded generation budget without returning structured content during acceptance. The explicit Instruct tag avoids this ambiguity; runtime metadata records the actual model.

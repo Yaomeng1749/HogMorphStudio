@@ -9,7 +9,7 @@
 
 ## Photo → observation → reference comparison
 
-The demo uses a **pretrained vision-language model**, with Ollama's `qwen3-vl:4b` as the default. It observes the uploaded photo, proposes phenotype candidates, then compares the photo against up to three relevant real reference images. The server validates trait IDs and states and derives combination names from the project's ontology.
+The demo uses a **pretrained vision-language model**, with Ollama's `qwen3-vl:4b-instruct` as the default. It observes the uploaded photo, proposes phenotype candidates, then compares the photo against up to three relevant real reference images. The server validates trait IDs and states and derives combination names from the project's ontology.
 
 Results show up to three candidate morphs, component traits, visible observations, evidence strength, limitations, real reference photographs, the model used, and measured request duration. Evidence strength is qualitative; it is not calibrated probability, softmax confidence, or proof of a genotype. A photo cannot establish hidden carrier status.
 
@@ -24,7 +24,7 @@ python3 -m venv .venv-demo
 source .venv-demo/bin/activate
 python -m pip install -r requirements-demo.txt
 npm ci
-ollama pull qwen3-vl:4b
+ollama pull qwen3-vl:4b-instruct
 npm run demo
 ```
 
