@@ -18,4 +18,6 @@ jobs:
       - run: npm run build
       - run: python -m unittest discover -s tests/demo -v
       - run: python -m unittest discover -s tests/data -v
+      - run: node --test tests/sites/worker.test.mjs
+      - run: npm run build:sites
       - run: git diff --exit-code -- build
