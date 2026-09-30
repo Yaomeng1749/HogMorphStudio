@@ -19,3 +19,5 @@ source/*.docx
 !.env.example
 .runtime/
 .pytest_cache/
+
+.venv-*/
