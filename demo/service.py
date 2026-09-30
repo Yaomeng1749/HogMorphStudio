@@ -372,16 +372,20 @@ def prompt_for(catalog, lang, refs=None, provisional=None):
 
 
 def validate_result(result, catalog, allowed_refs):
-    seen = set()
+    seen, normalized = set(), []
     for candidate in result.candidates:
         values = [t.model_dump() for t in candidate.traits]
+        # Validate every original item before normalization, even duplicate hypotheses.
         catalog.validate_traits(values)
-        signature = tuple(sorted((t["trait_id"], t["state"]) for t in values))
-        if signature in seen or len(set(candidate.reference_ids)) != len(candidate.reference_ids):
-            fail("invalid_model_output", "The model returned duplicate hypotheses or references.")
-        seen.add(signature)
         if not set(candidate.reference_ids).issubset(allowed_refs):
             fail("invalid_model_output", "The model cited a reference outside the supplied comparison set.")
+        signature = tuple(sorted((t["trait_id"], t["state"]) for t in values))
+        candidate.reference_ids = list(dict.fromkeys(candidate.reference_ids))
+        if signature not in seen:
+            normalized.append(candidate)
+            seen.add(signature)
+    # Stable normalization only: keep the first hypothesis and its original evidence.
+    result.candidates = normalized
 
 
 def assessment_status(result):

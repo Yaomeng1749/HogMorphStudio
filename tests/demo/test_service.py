@@ -183,6 +183,24 @@ class ServiceTests(unittest.TestCase):
         self.assertIn("ACTUAL visible head/snout, eyes, dorsal pattern and pigment", prompt)
         self.assertIn("explicitly say when a feature is not visible", prompt)
         self.assertIn("never force a candidate", prompt)
+    def test_duplicate_hypotheses_and_references_normalized_after_validation(self):
+        from demo.service import validate_result
+        catalog = Catalog(self.root)
+        traits = [{"trait_id": "albino", "state": "expressed"}]
+        value = result(traits, ["albino-ref", "albino-ref"])
+        duplicate = value.candidates[0].model_copy(deep=True)
+        duplicate.visible_evidence = ["Different evidence must not be merged"]
+        value.candidates.append(duplicate)
+        validate_result(value, catalog, {"albino-ref"})
+        self.assertEqual(len(value.candidates), 1)
+        self.assertEqual(value.candidates[0].reference_ids, ["albino-ref"])
+        self.assertEqual(value.candidates[0].visible_evidence, ["Pale pigment"])
+        invalid = result(traits)
+        duplicate = invalid.candidates[0].model_copy(deep=True)
+        duplicate.reference_ids = ["invented"]
+        invalid.candidates.append(duplicate)
+        with self.assertRaises(HTTPException):
+            validate_result(invalid, catalog, {"albino-ref"})
     def test_names(self):
         catalog = Catalog(self.root)
         self.assertEqual(catalog.names([{"trait_id": "anaconda", "state": "homozygous"}])[0], "Superconda")
