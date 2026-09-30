@@ -1,0 +1,460 @@
+{
+  "schema_version": "1.0.0",
+  "species": "Heterodon nasicus",
+  "purpose": "User-confirmed phenotype examples for multimodal demo reference comparison; not supervised training or an independent evaluation set.",
+  "labels_complete": false,
+  "images": [
+    {
+      "id": "figure01",
+      "image": "data/demo_references/figure01.jpg",
+      "traits": [
+        {
+          "trait_id": "anaconda",
+          "state": "heterozygous"
+        }
+      ],
+      "name_en": "Anaconda",
+      "name_zh": "康达",
+      "review_status": "user_confirmed",
+      "review_date": "2026-09-30",
+      "role": "phenotype_reference",
+      "labels_complete": false,
+      "attribution": "Friend-provided course photos, supplied and confirmed by project owner",
+      "image_rights": "owner_authorized_demo",
+      "sha256": "4008ece73e4ec9f1224504268ac74feb8cd95909480a06d3386cd942397aa5c5",
+      "source_filename": "figure1.png",
+      "source_sha256": "0ce0e4ab109e80f1f116ebcfb55326d27e6e795993356802cb1933c9eb1e6cea",
+      "modifications": "Orientation corrected, converted to JPEG, embedded metadata removed.",
+      "excluded_historical_labels": []
+    },
+    {
+      "id": "figure02",
+      "image": "data/demo_references/figure02.jpg",
+      "traits": [
+        {
+          "trait_id": "anaconda",
+          "state": "heterozygous"
+        }
+      ],
+      "name_en": "Anaconda",
+      "name_zh": "康达",
+      "review_status": "user_confirmed",
+      "review_date": "2026-09-30",
+      "role": "phenotype_reference",
+      "labels_complete": false,
+      "attribution": "Friend-provided course photos, supplied and confirmed by project owner",
+      "image_rights": "owner_authorized_demo",
+      "sha256": "83b92df1216f0900e49806c71935039c7b421348cbb553d427440ffdc8d71a36",
+      "source_filename": "figure2.png",
+      "source_sha256": "3e8e471fddeb38880cee7ad64f8be2e59fd4908d19f18e22b4ca10d2b775b164",
+      "modifications": "Orientation corrected, converted to JPEG, embedded metadata removed.",
+      "excluded_historical_labels": []
+    },
+    {
+      "id": "figure03",
+      "image": "data/demo_references/figure03.jpg",
+      "traits": [
+        {
+          "trait_id": "arctic",
+          "state": "homozygous"
+        }
+      ],
+      "name_en": "Super Arctic",
+      "name_zh": "超级北极",
+      "review_status": "user_confirmed",
+      "review_date": "2026-09-30",
+      "role": "phenotype_reference",
+      "labels_complete": false,
+      "attribution": "Friend-provided course photos, supplied and confirmed by project owner",
+      "image_rights": "owner_authorized_demo",
+      "sha256": "ff5a0e131ebcf3dffa95fd4ee7e9c009524a285089b905f4bc2685de5737c38d",
+      "source_filename": "figure3.png",
+      "source_sha256": "b9d5a1313e0f1e6d8eae688d9181ce1e950e7c251e8794d5c183a41b323acd24",
+      "modifications": "Orientation corrected, converted to JPEG, embedded metadata removed.",
+      "excluded_historical_labels": []
+    },
+    {
+      "id": "figure04",
+      "image": "data/demo_references/figure04.jpg",
+      "traits": [
+        {
+          "trait_id": "anaconda",
+          "state": "homozygous"
+        }
+      ],
+      "name_en": "Superconda",
+      "name_zh": "超级康达",
+      "review_status": "user_confirmed",
+      "review_date": "2026-09-30",
+      "role": "phenotype_reference",
+      "labels_complete": false,
+      "attribution": "Friend-provided course photos, supplied and confirmed by project owner",
+      "image_rights": "owner_authorized_demo",
+      "sha256": "89dcdce995f68dc28df8a772c09ae8edcf0870f04389712d4c8f2450777bca13",
+      "source_filename": "figure4.png",
+      "source_sha256": "adbcdc8a2d06f0bf929f82b7b3bd18d94934146d27baafa4bdc28937c644bff1",
+      "modifications": "Orientation corrected, converted to JPEG, embedded metadata removed.",
+      "excluded_historical_labels": []
+    },
+    {
+      "id": "figure05",
+      "image": "data/demo_references/figure05.jpg",
+      "traits": [
+        {
+          "trait_id": "anaconda",
+          "state": "heterozygous"
+        }
+      ],
+      "name_en": "Anaconda",
+      "name_zh": "康达",
+      "review_status": "user_confirmed",
+      "review_date": "2026-09-30",
+      "role": "phenotype_reference",
+      "labels_complete": false,
+      "attribution": "Friend-provided course photos, supplied and confirmed by project owner",
+      "image_rights": "owner_authorized_demo",
+      "sha256": "9b271296a530dfb5d7e0261f8d9d910cb08ccb4d6e8012f52fa3648e21d54fa6",
+      "source_filename": "figure5.png",
+      "source_sha256": "2f78e0fc522981662bd321cec12e7722d4329cebfd619acc9f6017f569c9bdce",
+      "modifications": "Orientation corrected, converted to JPEG, embedded metadata removed.",
+      "excluded_historical_labels": [
+        "Lemon Ghost"
+      ]
+    },
+    {
+      "id": "figure06",
+      "image": "data/demo_references/figure06.jpg",
+      "traits": [
+        {
+          "trait_id": "albino",
+          "state": "expressed"
+        }
+      ],
+      "name_en": "Albino",
+      "name_zh": "白化",
+      "review_status": "user_confirmed",
+      "review_date": "2026-09-30",
+      "role": "phenotype_reference",
+      "labels_complete": false,
+      "attribution": "Friend-provided course photos, supplied and confirmed by project owner",
+      "image_rights": "owner_authorized_demo",
+      "sha256": "a705b347c1cfb9927c99e35c774b64fae1530018cff906ca5c68353af2274938",
+      "source_filename": "figure6.png",
+      "source_sha256": "c9b5309c30e640778e6edd4e23c50bdc023f0376aaa3a653cab03d69caed1542",
+      "modifications": "Orientation corrected, converted to JPEG, embedded metadata removed.",
+      "excluded_historical_labels": []
+    },
+    {
+      "id": "figure07",
+      "image": "data/demo_references/figure07.jpg",
+      "traits": [
+        {
+          "trait_id": "albino",
+          "state": "expressed"
+        }
+      ],
+      "name_en": "Albino",
+      "name_zh": "白化",
+      "review_status": "user_confirmed",
+      "review_date": "2026-09-30",
+      "role": "phenotype_reference",
+      "labels_complete": false,
+      "attribution": "Friend-provided course photos, supplied and confirmed by project owner",
+      "image_rights": "owner_authorized_demo",
+      "sha256": "d95506cecb617f198653ac01ba5b0af45565272248fd36af859cf8ed7ab0c795",
+      "source_filename": "figure7.png",
+      "source_sha256": "8d01c367539e9ceda3ad669fd2e9f822f4315ad3f6968acdc759a070b023e9e0",
+      "modifications": "Orientation corrected, converted to JPEG, embedded metadata removed.",
+      "excluded_historical_labels": [
+        "Extreme Red"
+      ]
+    },
+    {
+      "id": "figure08",
+      "image": "data/demo_references/figure08.jpg",
+      "traits": [
+        {
+          "trait_id": "albino",
+          "state": "expressed"
+        },
+        {
+          "trait_id": "toffee_belly",
+          "state": "expressed"
+        }
+      ],
+      "name_en": "Albino + Toffee Belly",
+      "name_zh": "白化 + 太妃糖腹",
+      "review_status": "user_confirmed",
+      "review_date": "2026-09-30",
+      "role": "phenotype_reference",
+      "labels_complete": false,
+      "attribution": "Friend-provided course photos, supplied and confirmed by project owner",
+      "image_rights": "owner_authorized_demo",
+      "sha256": "67ad68942646139d413a0f85eab1da3a62f7f564d2a2663d030f03351b6c6e6f",
+      "source_filename": "figure8.png",
+      "source_sha256": "106f9d603b3adb35de7239a4e3b714da1aa1e9ca4fcd338a324c719dbd0c3e35",
+      "modifications": "Orientation corrected, converted to JPEG, embedded metadata removed.",
+      "excluded_historical_labels": []
+    },
+    {
+      "id": "figure09",
+      "image": "data/demo_references/figure09.jpg",
+      "traits": [
+        {
+          "trait_id": "lavender",
+          "state": "expressed"
+        }
+      ],
+      "name_en": "Lavender",
+      "name_zh": "薰衣草",
+      "review_status": "user_confirmed",
+      "review_date": "2026-09-30",
+      "role": "phenotype_reference",
+      "labels_complete": false,
+      "attribution": "Friend-provided course photos, supplied and confirmed by project owner",
+      "image_rights": "owner_authorized_demo",
+      "sha256": "6819eba4ebb3efb719eee66bf3672cf57f716e4715a374550366c392de62134a",
+      "source_filename": "figure9.png",
+      "source_sha256": "f44fe08595fe0e5eec4f5a8945b8de06c604f841dad99cfdf942545bf677ca77",
+      "modifications": "Orientation corrected, converted to JPEG, embedded metadata removed.",
+      "excluded_historical_labels": []
+    },
+    {
+      "id": "figure10",
+      "image": "data/demo_references/figure10.jpg",
+      "traits": [
+        {
+          "trait_id": "albino",
+          "state": "expressed"
+        }
+      ],
+      "name_en": "Albino",
+      "name_zh": "白化",
+      "review_status": "user_confirmed",
+      "review_date": "2026-09-30",
+      "role": "phenotype_reference",
+      "labels_complete": false,
+      "attribution": "Friend-provided course photos, supplied and confirmed by project owner",
+      "image_rights": "owner_authorized_demo",
+      "sha256": "cd9af08c9eef12701890ab431470303657aa0be9f27f6a54c3ebd1b0d2e699be",
+      "source_filename": "figure10.png",
+      "source_sha256": "e3c67128a243613f60007d0dbddbc66085cfe29c4521e6fee1bd88d5ff31223b",
+      "modifications": "Orientation corrected, converted to JPEG, embedded metadata removed.",
+      "excluded_historical_labels": [
+        "Pink Pastel"
+      ]
+    },
+    {
+      "id": "figure11",
+      "image": "data/demo_references/figure11.jpg",
+      "traits": [
+        {
+          "trait_id": "axanthic",
+          "state": "expressed"
+        }
+      ],
+      "name_en": "Axanthic",
+      "name_zh": "缺黄",
+      "review_status": "user_confirmed",
+      "review_date": "2026-09-30",
+      "role": "phenotype_reference",
+      "labels_complete": false,
+      "attribution": "Friend-provided course photos, supplied and confirmed by project owner",
+      "image_rights": "owner_authorized_demo",
+      "sha256": "83a0da05500122a9cdd36f70ac25679f336bf755310d169ed670bea4c30213c9",
+      "source_filename": "figure11.png",
+      "source_sha256": "09be8b18b95124285f18e84191c1ea838bac9696a4ad2e25b96fd0e8579aad8d",
+      "modifications": "Orientation corrected, converted to JPEG, embedded metadata removed.",
+      "excluded_historical_labels": []
+    },
+    {
+      "id": "figure13",
+      "image": "data/demo_references/figure13.jpg",
+      "traits": [
+        {
+          "trait_id": "sable",
+          "state": "expressed"
+        }
+      ],
+      "name_en": "Sable",
+      "name_zh": "紫貂",
+      "review_status": "user_confirmed",
+      "review_date": "2026-09-30",
+      "role": "phenotype_reference",
+      "labels_complete": false,
+      "attribution": "Friend-provided course photos, supplied and confirmed by project owner",
+      "image_rights": "owner_authorized_demo",
+      "sha256": "a8e9cf64f455d903c5305390e9148da8f119715e5cfe7a620a099a56d018d209",
+      "source_filename": "figure13.png",
+      "source_sha256": "61d959fac3030b93513f0985359c5acada2bc53327d59dc12c9eebc85afb691d",
+      "modifications": "Orientation corrected, converted to JPEG, embedded metadata removed.",
+      "excluded_historical_labels": [
+        "Diablo Eyes"
+      ]
+    },
+    {
+      "id": "figure16",
+      "image": "data/demo_references/figure16.jpg",
+      "traits": [
+        {
+          "trait_id": "albino",
+          "state": "expressed"
+        },
+        {
+          "trait_id": "axanthic",
+          "state": "expressed"
+        }
+      ],
+      "name_en": "Snow",
+      "name_zh": "雪",
+      "review_status": "user_confirmed",
+      "review_date": "2026-09-30",
+      "role": "phenotype_reference",
+      "labels_complete": false,
+      "attribution": "Friend-provided course photos, supplied and confirmed by project owner",
+      "image_rights": "owner_authorized_demo",
+      "sha256": "1ca370da5acdd90490c8033a5e2cd81e83f0ad0800ea84d9c6e665479ac13945",
+      "source_filename": "figure16.png",
+      "source_sha256": "9c8c9aa1a6803e41953c5d13e42056eec1d5c627234f041be99f7c851745012e",
+      "modifications": "Orientation corrected, converted to JPEG, embedded metadata removed.",
+      "excluded_historical_labels": []
+    },
+    {
+      "id": "figure17",
+      "image": "data/demo_references/figure17.jpg",
+      "traits": [
+        {
+          "trait_id": "toffee_belly",
+          "state": "expressed"
+        },
+        {
+          "trait_id": "axanthic",
+          "state": "expressed"
+        }
+      ],
+      "name_en": "Toxic",
+      "name_zh": "毒液",
+      "review_status": "user_confirmed",
+      "review_date": "2026-09-30",
+      "role": "phenotype_reference",
+      "labels_complete": false,
+      "attribution": "Friend-provided course photos, supplied and confirmed by project owner",
+      "image_rights": "owner_authorized_demo",
+      "sha256": "43da422cc0ceaebf2a6436ef3ba916b47a913994d1a615ac86bc0aed4b5aa4fd",
+      "source_filename": "figure17.png",
+      "source_sha256": "a0cf445ef1032a11452b7862b86314bbcc2794871d0b47f80cf51c3206ce7c0f",
+      "modifications": "Orientation corrected, converted to JPEG, embedded metadata removed.",
+      "excluded_historical_labels": []
+    },
+    {
+      "id": "figure18",
+      "image": "data/demo_references/figure18.jpg",
+      "traits": [
+        {
+          "trait_id": "albino",
+          "state": "expressed"
+        },
+        {
+          "trait_id": "sable",
+          "state": "expressed"
+        }
+      ],
+      "name_en": "Sunburst",
+      "name_zh": "日耀",
+      "review_status": "user_confirmed",
+      "review_date": "2026-09-30",
+      "role": "phenotype_reference",
+      "labels_complete": false,
+      "attribution": "Friend-provided course photos, supplied and confirmed by project owner",
+      "image_rights": "owner_authorized_demo",
+      "sha256": "3c2d49b3e4664a3adc1af7c43da9716e20f7b0dadcf64e6ba68cc8be8dac3b1c",
+      "source_filename": "figure18.png",
+      "source_sha256": "4562fd78c62a3fcfaa84293044f6dde1507853a889584bc55547dd2df66f8272",
+      "modifications": "Orientation corrected, converted to JPEG, embedded metadata removed.",
+      "excluded_historical_labels": []
+    },
+    {
+      "id": "figure19",
+      "image": "data/demo_references/figure19.jpg",
+      "traits": [
+        {
+          "trait_id": "albino",
+          "state": "expressed"
+        },
+        {
+          "trait_id": "sable",
+          "state": "expressed"
+        }
+      ],
+      "name_en": "Sunburst",
+      "name_zh": "日耀",
+      "review_status": "user_confirmed",
+      "review_date": "2026-09-30",
+      "role": "phenotype_reference",
+      "labels_complete": false,
+      "attribution": "Friend-provided course photos, supplied and confirmed by project owner",
+      "image_rights": "owner_authorized_demo",
+      "sha256": "fe386ad3708c511ba7862c2d0376d2b0bf20e0e22fc3c109690c9d56e4e29e54",
+      "source_filename": "figure19.png",
+      "source_sha256": "d2b0c891c08ad605ae9ef75e4a1cb34704042d789b97b09ff6126d37bc3357d5",
+      "modifications": "Orientation corrected, converted to JPEG, embedded metadata removed.",
+      "excluded_historical_labels": [
+        "Extreme Red"
+      ]
+    },
+    {
+      "id": "figure20",
+      "image": "data/demo_references/figure20.jpg",
+      "traits": [
+        {
+          "trait_id": "toffee_belly",
+          "state": "expressed"
+        },
+        {
+          "trait_id": "sable",
+          "state": "expressed"
+        }
+      ],
+      "name_en": "Mai Tai",
+      "name_zh": "迈泰",
+      "review_status": "user_confirmed",
+      "review_date": "2026-09-30",
+      "role": "phenotype_reference",
+      "labels_complete": false,
+      "attribution": "Friend-provided course photos, supplied and confirmed by project owner",
+      "image_rights": "owner_authorized_demo",
+      "sha256": "e9960a8eab7b474ba250359d7cd9c955a551cbf84550156142d5fb9f3b371f52",
+      "source_filename": "figure20.png",
+      "source_sha256": "3b50a18c16ae5a2edd87509a8f044b6cb8c7128292b624d7f6f4d8dec34a18ba",
+      "modifications": "Orientation corrected, converted to JPEG, embedded metadata removed.",
+      "excluded_historical_labels": []
+    },
+    {
+      "id": "figure21",
+      "image": "data/demo_references/figure21.jpg",
+      "traits": [
+        {
+          "trait_id": "axanthic",
+          "state": "expressed"
+        },
+        {
+          "trait_id": "sable",
+          "state": "expressed"
+        }
+      ],
+      "name_en": "Stormcloud",
+      "name_zh": "风暴云",
+      "review_status": "user_confirmed",
+      "review_date": "2026-09-30",
+      "role": "phenotype_reference",
+      "labels_complete": false,
+      "attribution": "Friend-provided course photos, supplied and confirmed by project owner",
+      "image_rights": "owner_authorized_demo",
+      "sha256": "c571814ea14ee0bff37d62a18269a45ee1533f6ec372896da49dec370a2f1e04",
+      "source_filename": "figure21.png",
+      "source_sha256": "d2381f585b4f30dc98352d8b4c2c4bbe6e16b8cb040f803fb18955f1b1f0ee24",
+      "modifications": "Orientation corrected, converted to JPEG, embedded metadata removed.",
+      "excluded_historical_labels": []
+    }
+  ]
+}

@@ -1,5 +1,7 @@
 # Incoming photo batch audit
 
+> Current demo update (2026-09-30): the live analyzer uses a configured pretrained vision-language model and 18 authorized course-photo references. The owner confirmed all 21 historical course labels (White Wall removed), and requested deletion of 207 incoming candidates; 16 uncertain images remain privately quarantined. The supervised CNN/MobileNet path and prior audit findings below remain research records, not the live inference architecture. See [multimodal demo](multimodal-demo.md) for current behavior.
+
 **Batch:** a user-supplied local folder, inventoried 2026-09-29. The source folder was not modified. Original media and the detailed image-indexed review remain outside the project and outside the local web server.
 
 ## Inventory and visual screen

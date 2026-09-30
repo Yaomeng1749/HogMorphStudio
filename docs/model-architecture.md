@@ -1,5 +1,7 @@
 # Model baseline / 模型基线
 
+> Current demo update (2026-09-30): the live analyzer uses a configured pretrained vision-language model and 18 authorized course-photo references. The owner confirmed all 21 historical course labels (White Wall removed), and requested deletion of 207 incoming candidates; 16 uncertain images remain privately quarantined. The supervised CNN/MobileNet path and prior audit findings below remain research records, not the live inference architecture. See [multimodal demo](multimodal-demo.md) for current behavior.
+
 ## Implemented Python reproduction
 
 The 2024 MATLAB model shape and paper-specified FPPA denoising method have been ported to Python 3/PyTorch and NumPy/SciPy. The old script’s data-loading and evaluation path remains non-reproducible: it references a missing workbook and undefined test set, and `denoiseplus.m` is empty. The port makes the architecture and denoiser executable; it does not claim to reproduce MATLAB weights or training results. Full commands and measured results are in [`python-model-port.md`](python-model-port.md).
