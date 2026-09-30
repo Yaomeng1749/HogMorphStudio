@@ -30,3 +30,7 @@ If you are interested, I can send a short data and permission form. Thank you.
 | Credit text and withdrawal contact | Attribution and later corrections |
 
 The contribution form is a proposed workflow, not permission already obtained. No message has been sent.
+
+## Minimum collection target for an evaluated trait
+
+The prototype's identity-level 70/15/15 split has a capacity floor of 39 distinct snakes and 100 eligible photos overall. For any one trait to pass the current support gate, it also needs at least 11 distinct positive individuals and 11 distinct individuals with explicit, evidence-supported negatives: 5 of each in training and 3 of each in validation and test. These per-trait individuals may overlap with other traits' cohorts, but all photos of a given snake must stay in one split. Unsupported traits will be omitted from evaluation rather than filled with unknown labels or assumed negatives. These are gate minima, not a claim that the dataset will be statistically adequate.
