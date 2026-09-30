@@ -42,6 +42,23 @@
   const button: HTMLButtonElement=q('#analyze-submit');
   const statusNode=q('#analyzer-status');
   function message(text:string) {q('#analysis-summary').textContent=text;}
+  function serviceMessage(code: string, fallback: unknown, model?: string): string {
+    if (!zh) return textList(fallback) || 'The model service is unavailable.';
+    const messages: Record<string,string> = {
+      ready: '模型服务已就绪。',
+      invalid_image: '图片无法读取或上传格式无效，请选择一张不超过 20 MB 的有效图片。',
+      references_unavailable: '演示参考图集无法读取，请按 README 检查完整安装。',
+      model_not_configured: '模型配置无效，请按 README 设置 HOGMORPH_PROVIDER、HOGMORPH_MODEL 与 HOGMORPH_BASE_URL。',
+      provider_error: '模型服务拒绝请求，请检查服务配置与访问权限。',
+      model_timeout: '模型响应超时，请重试或调整服务端等待时间。',
+      model_unavailable: '无法连接模型服务，请检查服务已启动且地址正确。',
+      model_missing: model ? `尚未安装配置模型，请运行 ollama pull ${model}；云端模式请检查模型名称。` : '配置的模型未安装或不在服务模型列表中，请按 README 检查模型配置。',
+      model_not_vision: '配置的模型不支持图片，请选择支持视觉输入的模型。',
+      invalid_model_output: '模型返回的结果格式无效或包含不支持的性状，请重试。'
+    };
+    return messages[code] || '服务未能完成分析，请检查模型配置或稍后重试。';
+  }
+
   async function checkStatus() {
     statusNode.textContent=tr('Checking model…','正在检查模型…');
     try {
@@ -49,7 +66,7 @@
       if(!response.ok) throw new Error('unavailable');
       const status=await response.json();
       ready=status.ready===true;
-      statusNode.textContent=`${ready ? tr('Model ready','模型就绪') : tr('Model unavailable','模型不可用')} · ${status.model || '—'}${!ready && status.message ? ' · '+status.message : ''}`;
+      statusNode.textContent=`${ready ? tr('Model ready','模型就绪') : tr('Model unavailable','模型不可用')} · ${status.model || '—'}${!ready && status.message ? ' · '+serviceMessage(status.code,status.message,status.model) : ''}`;
       q('#analyzer-privacy').textContent=status.provider==='ollama'
         ? tr('Analysis sends your photo to the local server and local Ollama. Uploads are released after processing.','分析会将照片发送至本机服务与本机 Ollama，处理后释放上传数据。')
         : tr('Cloud mode: analysis sends your photo to the configured vision API. Uploads are released after processing.','云端模式：分析会将照片发送至配置的视觉 API，处理后释放上传数据。');
@@ -113,11 +130,11 @@
       const form=new FormData();form.append('image',selected);form.append('lang',zh?'zh':'en');
       const response=await fetch('/api/analyze',{method:'POST',body:form});
       const result=await response.json();
-      if(!response.ok) throw new Error(textList(result.detail?.message||result.detail||result.error)||tr('Analysis failed.','分析失败。'));
+      if(!response.ok) throw new Error(serviceMessage(result.detail?.code,result.detail?.message||result.detail||result.error));
       render(result);
     } catch(error) {
       q('#analysis-evidence').textContent=tr('Analysis unavailable','分析不可用');
-      message(error instanceof Error?error.message:tr('The service could not return a valid result.','服务未能返回有效结果。'));
+      message(error instanceof TypeError ? tr('Cannot connect to the analysis service. Check that the demo server is running.','无法连接分析服务，请检查演示服务已启动。') : error instanceof Error ? error.message : tr('The service could not return a valid result.','服务未能返回有效结果。'));
     } finally {busy=false; q('#analyze-file').disabled=false;button.disabled=!ready||!selected;}
   });
   checkStatus();
