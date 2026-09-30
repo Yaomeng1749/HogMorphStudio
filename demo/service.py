@@ -363,6 +363,7 @@ def prompt_for(catalog, lang, refs=None, provisional=None):
             "If evidence is insufficient return no candidates. Never infer carrier/het recessive status, pedigree, a novel mutation, exact genotype, percentages or accuracy. "
             "heterozygous/homozygous for anaconda/arctic means only a visual phenotype hypothesis. "
             "No White Wall, Extreme Red, Lucy, Chocolate, Skull Face or other unsupported trait. Do not invent aliases or IDs. "
+            "Be concise and avoid repetition: 3-5 observations; each candidate 1-3 evidence statements and 1-2 uncertainties; 2-4 distinct limitations. "
             "All descriptive strings must be in " + language + ". Output only JSON matching this schema; no reasoning transcript: " + json.dumps(ModelResult.model_json_schema()))
 
 
