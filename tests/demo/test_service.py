@@ -249,6 +249,26 @@ class ServiceTests(unittest.TestCase):
         self.assertEqual(len(selected), 3)
         signatures = {tuple((t["trait_id"], t["state"]) for t in r["traits"]) for r in selected}
         self.assertEqual(len(signatures), 3)
+    def test_local_guide_assets_exact_manifest_allowlist(self):
+        folder = self.root / "data/reference_images"
+        folder.mkdir()
+        Image.new("RGB", (20, 20), "white").save(folder / "listed.jpeg")
+        Image.new("RGB", (20, 20), "white").save(folder / "unlisted.jpg")
+        (self.root / "source").mkdir()
+        (self.root / "source/private.docx").write_bytes(b"private course document")
+        manifest = {"images": [{"file": "reference_images/listed.jpeg"}, {"file": "reference_images/missing.png"},
+                               {"file": "reference_images/../../source/private.docx"}, {"file": "../.env"}, None, {"file": 123}]}
+        (self.root / "data/reference_gallery.json").write_text(json.dumps(manifest))
+        client = self.client(FakeProvider([]))
+        self.assertEqual(client.get("/data/reference_images/listed.jpeg").status_code, 200)
+        for path in ["/data/reference_images/unlisted.jpg", "/data/reference_images/missing.png", "/source/private.docx",
+                     "/data/reference_images/../../source/private.docx", "/.env"]:
+            self.assertEqual(client.get(path).status_code, 404)
+        self.assertEqual(client.get("/api/references").json()["images"], self.refs)
+        for invalid in ["not-json", "null", '{"images":null}', '{"images":{}}']:
+            (self.root / "data/reference_gallery.json").write_text(invalid)
+            self.assertEqual(client.get("/data/reference_images/listed.jpeg").status_code, 404)
+
     def test_names(self):
         catalog = Catalog(self.root)
         self.assertEqual(catalog.names([{"trait_id": "anaconda", "state": "homozygous"}])[0], "Superconda")
