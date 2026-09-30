@@ -88,7 +88,7 @@ def import_archive(archive,root):
   alias=next((a for a in ontology['aliases'] if sorted((t['trait_id'],t['state']) for t in a['components'])==first['components']),None)
   def names(lang):
    if alias:return alias['name_'+lang]
-   return ' + '.join(('Super ' if s=='homozygous' and lang=='en' else '超级' if s=='homozygous' else '')+traits[t]['name_'+lang] for t,s in first['components'])
+   return ' + '.join(('Superconda' if t=='anaconda' else 'Super '+traits[t]['name_en']) if s=='homozygous' and lang=='en' else ('超级' if s=='homozygous' else '')+traits[t]['name_'+lang] for t,s in first['components'])
   records.append({'id':ident,'image':f'data/demo_references/genes/{ident}.jpg','traits':components,'name_en':names('en'),'name_zh':names('zh'),'review_status':'user_labeled','role':'phenotype_reference','labels_complete':False,'label_source':'user-provided ZIP folder label; not independent expert review','source_folder':first['folder'],'source_records':sources,'source_sha256':digest,'sha256':hashlib.sha256(first['packed']).hexdigest(),'image_rights':'owner_authorized_demo','attribution':'Owner-provided labelled Genes archive; authorized for project demo','modifications':'Orientation corrected, resized to at most 1024 px longest edge, compressed JPEG, embedded metadata removed.','dimensions':first['size'],'width':first['size'][0],'height':first['size'][1],'source_group':'genes','perceptual_hash_dhash':f'{first["dhash"]:016x}','individual_id':None,'independent_test_eligible':False})
   phashes.append((ident,first['dhash']))
   if len(items)>1:duplicates.append({'retained_id':ident,'source_sha256':digest,'source_count':len(items),'sources':sources})
