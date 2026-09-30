@@ -104,6 +104,54 @@ class ServiceTests(unittest.TestCase):
         self.assertEqual(captured["error_code"], "invalid_model_output")
         self.assertEqual(client.get("/docs/guide.md").status_code, 200)
         self.assertEqual(client.get("/private-traces/" + records[0].name).status_code, 404)
+    def test_large_upload_remains_memory_and_is_closed(self):
+        from unittest.mock import patch
+        import tempfile as temp_module
+        import starlette.formparsers as parsers
+        files = []
+        original = temp_module.SpooledTemporaryFile
+        def spool(*args, **kwargs):
+            resource = original(*args, **kwargs)
+            files.append(resource)
+            return resource
+        raw = io.BytesIO()
+        Image.new("RGB", (900, 900), "green").save(raw, "BMP")
+        self.assertGreater(len(raw.getvalue()), 1024 * 1024)
+        provider = FakeProvider([result(species="non_target", count=0)])
+        with patch.object(parsers, "SpooledTemporaryFile", spool):
+            response = self.post(self.client(provider), raw=raw.getvalue())
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(files)
+        self.assertTrue(all(not f._rolled and f.closed for f in files))
+
+    def test_total_limit_with_length_and_chunked_body(self):
+        from unittest.mock import patch
+        provider = FakeProvider([])
+        client = self.client(provider)
+        with patch("demo.service.MAX_MULTIPART_BYTES", 1024):
+            self.assertEqual(self.post(client, raw=b"x" * 2048).status_code, 413)
+            body = b'--abc\r\nContent-Disposition: form-data; name="image"; filename="x.png"\r\n\r\n' + b"x" * 2048 + b"\r\n--abc--\r\n"
+            response = client.post("/api/analyze", content=iter([body[:900], body[900:]]),
+                                   headers={"content-type": "multipart/form-data; boundary=abc", "transfer-encoding": "chunked"})
+            self.assertEqual(response.status_code, 413)
+        self.assertEqual(provider.calls, [])
+
+    def test_diverse_positive_only_reference_selection(self):
+        catalog = Catalog(self.root)
+        anaconda = {"trait_id": "anaconda", "state": "heterozygous"}
+        arctic = {"trait_id": "arctic", "state": "heterozygous"}
+        candidates = result([anaconda, arctic]).candidates
+        refs = [dict(id="a1", traits=[anaconda]), dict(id="a2", traits=[anaconda]),
+                dict(id="a3", traits=[anaconda]), dict(id="b1", traits=[arctic])]
+        selected = catalog.select(candidates, refs)
+        self.assertEqual([r["id"] for r in selected], ["a1", "b1"])
+        # An extra known label on a reference never subtracts relevance for an unknown upload label.
+        refs = [dict(id="a", traits=[anaconda, {"trait_id": "albino", "state": "expressed"}]), dict(id="b", traits=[anaconda])]
+        self.assertEqual(catalog.select(result([anaconda]).candidates, refs)[0]["id"], "a")
+        provider = FakeProvider([result([{"trait_id": "albino", "state": "expressed"}]), result([{"trait_id": "albino", "state": "expressed"}], ["albino-ref"])])
+        self.assertEqual(self.post(self.client(provider)).status_code, 200)
+        self.assertIn('"labels_complete": false', provider.calls[1][0])
+        self.assertIn("image 1 ONLY", provider.calls[1][0])
     def test_names(self):
         catalog = Catalog(self.root)
         self.assertEqual(catalog.names([{"trait_id": "anaconda", "state": "homozygous"}])[0], "Superconda")
