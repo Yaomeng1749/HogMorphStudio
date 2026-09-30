@@ -177,9 +177,12 @@ class ServiceTests(unittest.TestCase):
         prompt = prompt_for(catalog, "en", [ref], [hypothesis[0].model_dump()])
         self.assertIn("Provisional first-pass hypotheses (NOT ground truth)", prompt)
         self.assertIn("Every proposed component requires its own visible cue", prompt)
-        self.assertIn("Prefer the minimal supported component set", prompt)
+        self.assertIn("prefer the minimal supported component set", prompt)
         self.assertIn("Do not infer unseen belly features", prompt)
         self.assertIn("Lack of pedigree/genetic proof alone", prompt)
+        self.assertIn("ACTUAL visible head/snout, eyes, dorsal pattern and pigment", prompt)
+        self.assertIn("explicitly say when a feature is not visible", prompt)
+        self.assertIn("never force a candidate", prompt)
     def test_names(self):
         catalog = Catalog(self.root)
         self.assertEqual(catalog.names([{"trait_id": "anaconda", "state": "homozygous"}])[0], "Superconda")
