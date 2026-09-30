@@ -207,6 +207,13 @@ class Catalog:
                     rel.suffix.lower() not in {".jpg", ".jpeg", ".png", ".webp"} or
                     any(part.startswith(".") for part in rel.parts)):
                 continue
+            folder = self.root / "data/reference_images"
+            path = self.root / "data" / rel
+            # Reject aliases through either the file or its directory chain. Otherwise a
+            # manifest-listed JPEG symlink could reveal a private document inside the repo.
+            if (folder.is_symlink() or (self.root / "data").is_symlink() or path.is_symlink() or
+                    not path.is_file() or not path.resolve().is_relative_to(folder.resolve())):
+                continue
             allowed.add("data/" + rel.as_posix())
         return allowed
 
