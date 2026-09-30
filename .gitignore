@@ -1,0 +1,15 @@
+.aris/runtime/
+.aris/state/
+.aris/schemas/
+.worktrees/
+.venv/
+node_modules/
+__pycache__/
+*.pyc
+.DS_Store
+data/reference_images/
+data/catalog.json
+data/reference_gallery.json
+data/incoming_summary.json
+data/incoming/
+source/*.docx

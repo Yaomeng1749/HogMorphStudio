@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Private incoming photo review</title><link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header><div><p class="eyebrow">HOGMORPH STUDIO · LOCAL REVIEW</p><h1 data-en="Incoming photo review" data-zh="待审照片复核">Incoming photo review</h1></div>
+    <button id="language" class="secondary" type="button">中文</button></header>
+  <aside class="notice"><strong data-en="Review boundary" data-zh="复核边界">Review boundary</strong>
+    <span data-en="Similarity groups are not confirmed individuals. These annotations do not become training data until the existing prepare_training_manifest.py validation passes. Carrier status cannot be inferred from photos; leave it unknown unless documented non-photo evidence supports it. Blank fields mean unknown, never a negative." data-zh="相似图片分组不代表已确认是同一条蛇。现有 prepare_training_manifest.py 验证通过前，这些标注不会成为训练数据。不能从照片推断携带状态；除非有非照片证据，否则应保持未知。空白表示未知，绝不表示阴性。">Similarity groups are not confirmed individuals. These annotations do not become training data until the existing prepare_training_manifest.py validation passes. Carrier status cannot be inferred from photos; leave it unknown unless documented non-photo evidence supports it. Blank fields mean unknown, never a negative.</span>
+  </aside>
+  <main>
+    <section class="list-panel"><div class="list-head"><h2 data-en="Review queue" data-zh="复核队列">Review queue</h2><select id="filter" aria-label="Filter"><option value="candidate_western_hognose">Candidate</option><option value="uncertain">Uncertain</option><option value="excluded">Excluded · restore</option></select></div>
+      <div class="review-progress"><h3 data-en="Review progress" data-zh="复核进度">Review progress</h3>
+        <div class="progress-grid">
+          <div><strong id="progress-species">0/0</strong><span data-en="species confirmed" data-zh="物种已确认">species confirmed</span></div>
+          <div><strong id="progress-individual">0/0</strong><span data-en="individual IDs entered" data-zh="已填写蛇只 ID">individual IDs entered</span></div>
+          <div><strong id="progress-labels">0/0</strong><span data-en="label + evidence reviewed" data-zh="已复核性状及证据">label + evidence reviewed</span></div>
+          <div><strong id="progress-rights">0/0</strong><span data-en="rights scopes recorded" data-zh="已记录图片使用范围">rights scopes recorded</span></div>
+        </div>
+        <p data-en="Counts show fields entered; they do not verify permissions or mean a record is training eligible." data-zh="统计仅表示字段已填写，不代表授权已核实或记录已满足训练资格。">Counts show fields entered; they do not verify permissions or mean a record is training eligible.</p>
+      </div>
+      <div class="queue-tools"><div id="count" class="muted"></div><button id="next-unreviewed" class="secondary" type="button" data-en="Next unreviewed →" data-zh="下一条未复核 →">Next unreviewed →</button></div><div id="queue-message" class="queue-message" aria-live="polite"></div><div id="items" class="items"></div></section>
+    <section id="editor" class="editor empty"><p data-en="Loading private inventory…" data-zh="正在载入本地清单…">Loading private inventory…</p></section>
+  </main>
+  <script src="/identity.js" defer></script><script src="/app.js" defer></script>
+</body>
+</html>

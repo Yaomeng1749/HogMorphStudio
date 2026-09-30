@@ -1,0 +1,19 @@
+# Media and data rights / 媒体与数据使用权
+
+`LICENSE-CODE` covers project-authored software and its software documentation only. It does not grant rights in photographs, the supplied DOCX, the original course workbook, external captions, or third-party websites. MIT permits commercial use; it is not a noncommercial license.
+
+| Material | Current status | Distribution boundary |
+| --- | --- | --- |
+| 16 `data/species_only/*.jpg` field photos | 13 CC0, 3 CC BY; exact photo page, license URL, observer and attribution in `data/species_manifest.json` | Preserve per-photo terms and attribution. Species-only use; no morph-negative claim. |
+| 16 `data/species_only/captive/*.jpg` references | 4 CC0, 12 CC BY 4.0; exact photo/observation pages, licenses, observer credit, modification note and SHA-256 in `data/captive_species_manifest.json`. The source observations are marked captive, but no morph labels or unique snake IDs are established. | Species-only reference use with per-image attribution and modification notice. Excluded from morph matching and training. |
+| `../猪鼻蛇大作业/image_data/` course photos | Source is the user's course folder; individual rights and photographer attribution are not documented | Local demo/reference only until rights are checked. |
+| 38 `data/reference_images/*` DOCX image occurrences | Extracted from a user-supplied document; embedded media rights are not documented | Local educational reference only until rights are checked. |
+| Wikimedia Commons candidate, “Western hognose at a pet store.jpg” | [File page](https://commons.wikimedia.org/wiki/File:Western_hognose_at_a_pet_store.jpg) declares [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/). The uploader reports a pet-store Anaconda label, which is unverified. | Candidate image is not included in the clean GitHub snapshot. Its reported label is not a training example without specimen-level identity and independent review. |
+| `assets/hero-natural-history.png` | AI-generated illustration for this demo, not a specimen | UI illustration only; do not use as biological evidence or training data. |
+| Instagram and MorphMarket search results | No image copied into this repository | Links and breeder leads only; request rights-holder permission before reuse. |
+
+Photo-specific CC BY credit in the UI includes the supplied iNaturalist attribution text, a link to the photo page, a link to the CC BY 4.0 license, and a notice that the iNaturalist medium-sized derivative was orientation-corrected, converted to JPEG, and stripped of embedded metadata. CC0 photos also link to their source and CC0 deed and display the same processing note for transparency. The Commons candidate is also a metadata-stripped derivative; original/local image SHA-256 and source information are in the manifest. Other retained wild files were copied unchanged. If a source's rights status changes or is disputed, remove that photo from a public release pending review.
+
+非商业声明不能替第三方摄影师授权。公开比赛展示或发布仓库前，应核对原课程照片与 DOCX 内嵌图片的原始权利；野外图只承担物种参考用途，不计入可训练的形态样本。
+
+The clean GitHub release excludes the course workbook, its external photo archive, the supplied DOCX, and all 38 images extracted from it. A fresh clone therefore has no morph reference archive and the analyzer abstains. The local development checkout may still use the course archive at `../猪鼻蛇大作业/image_data/`; that local-only path is not part of the published repository.

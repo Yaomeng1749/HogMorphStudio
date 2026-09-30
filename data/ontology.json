@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.1.0",
+  "species": "Heterodon nasicus",
+  "scope": "Western hognose genetic traits, morph aliases, and separate phenotype descriptors; a photo score is a phenotype hypothesis, not proof of genotype or carrier status.",
+  "states": {
+    "recessive": ["not_recorded", "carrier", "expressed"],
+    "incomplete_dominant": ["not_recorded", "heterozygous", "homozygous"],
+    "polygenic": ["not_recorded", "line_trait"],
+    "unresolved": ["not_recorded", "reported"]
+  },
+  "traits": [
+    {"id":"anaconda","name_en":"Anaconda","name_zh":"康达","kind":"locus","inheritance":"incomplete_dominant","states":["heterozygous","homozygous"],"legacy_catalog_ids":["b","e"],"photo_inferable":"phenotype_only","source_urls":["https://www.reptifit.nl/en/collection/western-hognose-snake-anaconda"]},
+    {"id":"arctic","name_en":"Arctic","name_zh":"北极","kind":"locus","inheritance":"incomplete_dominant","states":["heterozygous","homozygous"],"legacy_catalog_ids":["c","d"],"photo_inferable":"phenotype_only","source_urls":["https://www.reptifit.nl/en/collection"]},
+    {"id":"albino","name_en":"Albino","name_zh":"白化","kind":"locus","inheritance":"recessive","states":["carrier","expressed"],"legacy_catalog_ids":["g"],"photo_inferable":"expressed_phenotype_only","source_urls":["https://www.reptifit.nl/en/collection"]},
+    {"id":"axanthic","name_en":"Axanthic","name_zh":"缺黄","kind":"locus","inheritance":"recessive","states":["carrier","expressed"],"legacy_catalog_ids":["k"],"photo_inferable":"expressed_phenotype_only","source_urls":["https://www.reptifit.nl/en/collection/western-hognose-snake-axanthic"]},
+    {"id":"sable","name_en":"Sable","name_zh":"紫貂","kind":"locus","inheritance":"recessive","states":["carrier","expressed"],"legacy_catalog_ids":["m"],"photo_inferable":"expressed_phenotype_only","source_urls":["https://www.reptifit.nl/en/available/western-hognose-snake-sable/"]},
+    {"id":"toffee_belly","name_en":"Toffee Belly","name_zh":"太妃糖腹","kind":"locus","inheritance":"recessive","states":["carrier","expressed"],"legacy_catalog_ids":["h"],"photo_inferable":"expressed_phenotype_only","source_urls":["https://www.reptifit.nl/en/collection"]},
+    {"id":"lavender","name_en":"Lavender","name_zh":"薰衣草","kind":"locus","inheritance":"recessive","states":["carrier","expressed"],"legacy_catalog_ids":["i"],"photo_inferable":"expressed_phenotype_only","source_urls":["https://www.reptifit.nl/en/collection"]},
+    {"id":"extreme_red","name_en":"Extreme Red","name_zh":"极端红","kind":"line_trait","inheritance":"polygenic","states":["line_trait"],"legacy_catalog_ids":["p"],"photo_inferable":"appearance_only","source_urls":["https://www.reptifit.nl/en/available/western-hognose-snake-extreme-red-sunburst/"]},
+    {"id":"lemon_ghost","name_en":"Lemon Ghost","name_zh":"柠檬鬼","kind":"historical_label","inheritance":"unresolved","states":["reported"],"legacy_catalog_ids":["f"],"photo_inferable":"unverified","source_urls":[]},
+    {"id":"pink_pastel_albino","name_en":"Pink Pastel Albino","name_zh":"粉蜡笔","kind":"historical_label","inheritance":"unresolved","states":["reported"],"legacy_catalog_ids":["j"],"photo_inferable":"unverified","source_urls":["https://www.reptifit.nl/en/"]},
+    {"id":"lucy","name_en":"Lucy / Leucistic (unresolved)","name_zh":"露西／白色型（待核）","kind":"historical_label","inheritance":"unresolved","states":["reported"],"legacy_catalog_ids":["l"],"photo_inferable":"unverified","source_urls":[]},
+    {"id":"chocolate","name_en":"Chocolate (unresolved)","name_zh":"巧克力（待核）","kind":"historical_label","inheritance":"unresolved","states":["reported"],"legacy_catalog_ids":["n"],"photo_inferable":"unverified","source_urls":[]},
+    {"id":"skull_face","name_en":"Skull Face","name_zh":"骷髅脸","kind":"historical_label","inheritance":"unresolved","states":["reported"],"legacy_catalog_ids":["o"],"photo_inferable":"unverified","source_urls":[]},
+    {"id":"diablo_eyes","name_en":"Diablo eyes","name_zh":"魔眼","kind":"historical_label","inheritance":"unresolved","states":["reported"],"legacy_catalog_ids":["q"],"photo_inferable":"unverified","source_urls":[]}
+  ],
+  "phenotype_descriptors": [
+    {"id":"white_wall","name_en":"White Wall","name_zh":"白墙","kind":"visible_pattern_feature","not_a_genetic_locus":true,"description":"A pale/white lateral feature bordering the belly; an appearance descriptor, not a gene or genotype.","legacy_catalog_ids":["r"],"source_urls":["https://hognose.fandom.com/wiki/Anaconda","https://www.reptifit.nl/en/collection"]}
+  ],
+  "aliases": [
+    {"id":"superconda","name_en":"Superconda","name_zh":"超级康达","components":[{"trait_id":"anaconda","state":"homozygous"}],"source_urls":["https://www.reptifit.nl/en/collection/western-hognose-snake-anaconda"]},
+    {"id":"super_arctic","name_en":"Super Arctic","name_zh":"超级北极","components":[{"trait_id":"arctic","state":"homozygous"}],"source_urls":["https://www.reptifit.nl/en/collection"]},
+    {"id":"sunburst","name_en":"Sunburst","name_zh":"日耀","components":[{"trait_id":"sable","state":"expressed"},{"trait_id":"albino","state":"expressed"}],"source_urls":["https://www.reptifit.nl/en/available/western-hognose-snake-extreme-red-sunburst/"]},
+    {"id":"snow","name_en":"Snow","name_zh":"雪","components":[{"trait_id":"albino","state":"expressed"},{"trait_id":"axanthic","state":"expressed"}],"source_urls":["https://www.reptifit.nl/en/collection"]},
+    {"id":"yeti","name_en":"Yeti","name_zh":"雪人","components":[{"trait_id":"albino","state":"expressed"},{"trait_id":"axanthic","state":"expressed"},{"trait_id":"anaconda","state":"heterozygous"}],"source_urls":["https://www.reptifit.nl/en/collection"]},
+    {"id":"super_yeti","name_en":"Super Yeti","name_zh":"超级雪人","components":[{"trait_id":"albino","state":"expressed"},{"trait_id":"axanthic","state":"expressed"},{"trait_id":"anaconda","state":"homozygous"}],"source_urls":["https://www.reptifit.nl/en/available/western-hognose-snake-super-yeti/"]},
+    {"id":"snowburst","name_en":"Snowburst","name_zh":"雪耀","components":[{"trait_id":"sable","state":"expressed"},{"trait_id":"albino","state":"expressed"},{"trait_id":"axanthic","state":"expressed"}],"source_urls":["https://www.reptifit.nl/en/collection"]},
+    {"id":"extreme_red_sunburst","name_en":"Extreme Red Sunburst","name_zh":"极端红日耀","components":[{"trait_id":"sable","state":"expressed"},{"trait_id":"albino","state":"expressed"},{"trait_id":"extreme_red","state":"line_trait"}],"source_urls":["https://www.reptifit.nl/en/available/western-hognose-snake-extreme-red-sunburst/"]},
+    {"id":"toxic","name_en":"Toxic","name_zh":"毒液","components":[{"trait_id":"axanthic","state":"expressed"},{"trait_id":"toffee_belly","state":"expressed"}],"source_urls":["https://hognosehub.com/genetics-lab/toxic"]},
+    {"id":"mai_tai","name_en":"Mai Tai","name_zh":"迈泰","components":[{"trait_id":"sable","state":"expressed"},{"trait_id":"toffee_belly","state":"expressed"}],"source_urls":["https://hognosehub.com/genetics-lab/mai-tai"]},
+    {"id":"mai_tai_anaconda","name_en":"Mai Tai Anaconda","name_zh":"迈泰康达","components":[{"trait_id":"sable","state":"expressed"},{"trait_id":"toffee_belly","state":"expressed"},{"trait_id":"anaconda","state":"heterozygous"}],"source_urls":["https://hognosehub.com/genetics-lab/mai-tai"]},
+    {"id":"stormcloud","name_en":"Stormcloud","name_zh":"风暴云","components":[{"trait_id":"axanthic","state":"expressed"},{"trait_id":"sable","state":"expressed"}],"source_urls":["https://hognosehub.com/genetics-lab/stormcloud"]},
+    {"id":"moonstone","name_en":"Moonstone","name_zh":"月光石","components":[{"trait_id":"lavender","state":"expressed"},{"trait_id":"arctic","state":"homozygous"}],"source_urls":["https://hognosehub.com/genetics-lab/moonstone"]},
+    {"id":"coral","name_en":"Coral","name_zh":"珊瑚","components":[{"trait_id":"albino","state":"expressed"},{"trait_id":"lavender","state":"expressed"}],"source_urls":["https://hognosehub.com/genetics-lab/coral"]}
+  ],
+  "legacy_label_map": {
+    "b":{"trait_id":"anaconda","state":"heterozygous"},"c":{"trait_id":"arctic","state":"heterozygous"},"d":{"trait_id":"arctic","state":"homozygous"},"e":{"trait_id":"anaconda","state":"homozygous"},"f":{"trait_id":"lemon_ghost","state":"reported"},"g":{"trait_id":"albino","state":"expressed"},"h":{"trait_id":"toffee_belly","state":"expressed"},"i":{"trait_id":"lavender","state":"expressed"},"j":{"trait_id":"pink_pastel_albino","state":"reported"},"k":{"trait_id":"axanthic","state":"expressed"},"l":{"trait_id":"lucy","state":"reported"},"m":{"trait_id":"sable","state":"expressed"},"n":{"trait_id":"chocolate","state":"reported"},"o":{"trait_id":"skull_face","state":"reported"},"p":{"trait_id":"extreme_red","state":"line_trait"},"q":{"trait_id":"diablo_eyes","state":"reported"},"r":{"phenotype_descriptor_id":"white_wall","state":"reported"}
+  },
+  "new_trait_protocol": "A novel visual appearance is an unknown candidate until documented breeder lineage or genetic evidence, independent animals, reproducible description, and expert review support a named trait. Never infer a new mutation or hidden carrier from an image alone."
+}

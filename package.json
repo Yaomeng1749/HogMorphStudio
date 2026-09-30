@@ -1,0 +1,13 @@
+{
+  "name": "hogmorph-studio",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Bilingual Western Hognose phenotype curation demo",
+  "scripts": {
+    "build": "tsc --project tsconfig.json",
+    "typecheck": "tsc --project tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2"
+  }
+}
