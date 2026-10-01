@@ -16,7 +16,7 @@
     'analysis-method-link':tr('How the model reasons ↘','模型如何判断 ↘'),
     'model-eyebrow':tr('UNDER THE HOOD','识别原理'),
     'model-title':tr('A vision model, real references.','视觉模型与真实参考图。'),
-    'model-intro-text':tr('The live demo uses a pretrained multimodal model through Python/FastAPI. Ollama qwen3-vl:4b-instruct is the default; an OpenAI-compatible vision endpoint can also be configured. No morph classifier is trained by this demo. Expanded-library checks identified Albino and Superconda components but still missed other combinations. Reference-library checks do not establish independent recognition accuracy.','实时演示通过 Python/FastAPI 调用预训练多模态模型，默认使用 Ollama qwen3-vl:4b-instruct，也支持配置 OpenAI 兼容视觉接口。本演示没有训练专用形态分类器。扩充参考库后的实测识别了白化与 Superconda 成分，其他组合仍有遗漏；参考库内检查不能证明独立识别准确率。'),
+    'model-intro-text':tr('A pretrained vision model observes your photo and compares real references. The local demo uses Ollama qwen3-vl:4b-instruct; the hosted demo uses a configured OpenAI-compatible vision API.','预训练视觉模型观察照片并比较真实参考图。本机版使用 Ollama qwen3-vl:4b-instruct，线上版使用配置的 OpenAI 兼容视觉 API。'),
     'model-step1-title':tr('Observe the photo','观察照片'),
     'model-step1-text':tr('The vision model checks the subject and describes visible pattern and color evidence. Ambiguous or unsuitable images can receive no call.','视觉模型检查主体，描述可见花纹与颜色依据；模糊或不适合的图片可以拒绝判断。'),
     'model-step2-title':tr('Compare real references','比较真实参考图'),
@@ -34,7 +34,7 @@
   function buttonCopy(){q('#analyze-submit').textContent=tr('Analyze photo','分析照片');q('#analyze-refresh').textContent=tr('Refresh model','刷新模型');}
   q('#hero-title').innerHTML=tr('Upload a hognose.<br><em>Explore its traits.</em>','上传猪鼻蛇照片。<br><em>探索可见表型。</em>');
   q('.hero-copy > p').textContent=tr('Explore phenotype candidates, atomic traits, visible evidence, and real photo comparisons with a configured multimodal model.','通过配置的多模态模型，查看表型候选、基础性状、可见依据与真实照片对照。');
-  q('#analysis-caveat').textContent=tr('Photo-based assistance cannot establish genotype or recessive carrier status. Evidence levels are qualitative, not calibrated probabilities. Reference comparisons are not an independent accuracy test.','照片辅助判断不能确认基因型或隐性携带状态。证据等级是定性描述，不是校准概率；参考图对照不是独立准确率测试。');
+  q('#analysis-caveat').textContent=tr('Photo-based assistance cannot establish genotype or recessive carrier status. Evidence levels are qualitative, not calibrated probabilities.','照片辅助判断不能确认基因型或隐性携带状态。证据等级是定性描述，不是校准概率。');
   let selected: File | null = null;
   let previewUrl: string | null = null;
   let busy=false;
@@ -46,6 +46,7 @@
     if (!zh) return textList(fallback) || 'The model service is unavailable.';
     const messages: Record<string,string> = {
       ready: '模型服务已就绪。',
+      cloud_model_not_configured: '线上识别尚未连接模型服务，图库可以正常浏览。',
       invalid_image: '图片无法读取或上传格式无效，请选择一张不超过 20 MB 的有效图片。',
       references_unavailable: '演示参考图集无法读取，请按 README 检查完整安装。',
       model_not_configured: '模型配置无效，请按 README 设置 HOGMORPH_PROVIDER、HOGMORPH_MODEL 与 HOGMORPH_BASE_URL。',
